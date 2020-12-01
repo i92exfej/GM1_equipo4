@@ -1,4 +1,8 @@
+#include <iostream>
+#include <cstdlib>
+#include <string.h>
 
+using namespace std;
 
 class Usuario{
 	private:
