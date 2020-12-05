@@ -22,6 +22,9 @@ struct Reconocimiento{
 	string descripcion;
 };
 
+class Incidencia;
+
+
 class Usuario{
 	private:
 		string password_;
@@ -33,6 +36,7 @@ class Usuario{
 		bool compruebaPassword();
 
 };
+
 
 class Monitor:public Usuario{
 	private:
@@ -327,12 +331,37 @@ cout<<"El cliente con dni "<<dni<<" no se encuentra en el sistema"<<endl;
 
 		}
 
-		void getIncidencias();
-		void ModificarIncidencia(string codigo);
+		void getIncidencias(){
+			list<Incidencia>::iterator iti;
+			for(iti=incidencias.begin();iti!=incidencias.end();iti++){
+				(*iti).Incidencia::mostrarIncidencia();
+			}
+		}
 
+		void ModificarIncidencia(string codigo){
+			string descripcion;
+			int estado;
+			list<Incidencia>::iterator iti;
+					for(iti=incidencias.begin();iti!=incidencias.end();iti++){
+						if(codigo==(*iti.Incidencia::getCodigo)){
+						(*iti).Incidencia::mostrarIncidencia();
+				cout<<"\nIntroduzca la nueva descripcion de la incidencia: "<<endl;
+				getline(cin,descripcion);
+				cout<<"\nIntroduzca nuevo estado de la ruta: 1-sin resolver /2-resuelta /3-almacenada"<<endl;
+				cin>>estado;
+				if(estado>0&&estado<4){
+					(*iti).Incidencia::setEstado(estado);
+				}
+				else{
+					cout<<"Estado incorrecto, se mantendra el anterior"<<endl;
+				}
+				(*iti).Incidencia::setDescripcion(descripcion);
+						}
+					}
+				};
 };
 
-class Incidendia{
+class Incidencia{
 	private:
 		string nombre_;
 		string codigo_;
@@ -352,6 +381,6 @@ class Incidendia{
 		Ruta getRuta();
 		string getDescripcion();
 		int getEstado();
-		void MostarIncidencia();
+		void mostrarIncidencia();
 
 };
