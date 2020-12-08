@@ -22,6 +22,18 @@ struct Reconocimiento{
 	string descripcion;
 };
 
+struct Sendero{
+	string nombre;
+	float distancia;
+};
+
+class Cliente;
+class Reserva;
+class Parque;
+class Ruta;
+class Usuario;
+class Monitor;
+class Administrativo;
 class Incidencia;
 
 
@@ -50,7 +62,7 @@ class Monitor:public Usuario{
 	public:
 		Monitor(string dni, string password,string nombre="",string apellidos="",int telefono=0,string fechaNacimiento="",string correo="",string direccion="");
 		void setNombre(string nombre);
-		void setApellidos(string apellido1, string apellido2)
+		void setApellidos(string apellido1, string apellido2);
 		void setTelefono(int telefono);
 		void setFechaNacimiento(string dia, string mes, string año);
 		void setCorreo(string correo);
@@ -72,23 +84,22 @@ class Administrativo:public Usuario{
 	//nada
 
 	public:
-		Administrativo(string dni, string password):Usuario(dni,password);
-		string getDNI() override{
-			return dni_;
-		}
+		Administrativo(string dni, string password):Usuario(dni,password){};
+		string getDNI() override{return DNI_;
+		};
 
 		void obtenerDatosParque(){
 			Parque P;
 			P=parque; //objeto de la clase parque declarado como global en el programa main
 			cout<<"Nombre del parque: "<<P.Parque::mostrarNombre()<<endl;
-			cout<<"Ubicacion del parque: "<<P.Parque::mostrarUbicacion<<endl;
-			cout<<"Superficie del parque "<<P.Parque::mostrarSuperficie<<" hectareas"<<endl;
-			cout<<"Zonas contenidas en el parque"<<P.Parque::mostrarZona<<endl;
-			cout<<"Fecha de declaracion de parque natural: "<<P.Parque::mostrarFechaDeclaracion<<endl;
-			cout<<"El parque ha obtenido los premios: "<<P.Parque::mostrarPremios<<endl;
-			cout<<"El parque tiene los siguientes reconocimientos: "<<P.Parque::mostarReconocimientos<<endl;
-			cout<<"El horario del parque es: "<<P.Parque::mostrarHorario<<endl;
-			cout<<"Las rutas disponibles en el parque son: "<<P.Parque::mostrarRutas<<endl;
+			cout<<"Ubicacion del parque: "<<P.Parque::mostrarUbicacion()<<endl;
+			cout<<"Superficie del parque "<<P.Parque::mostrarSuperficie()<<" hectareas"<<endl;
+			cout<<"Zonas contenidas en el parque"<<P.Parque::mostrarZona()<<endl;
+			cout<<"Fecha de declaracion de parque natural: "<<P.Parque::mostrarFechaDeclaracion()<<endl;
+			cout<<"El parque ha obtenido los premios: "<<P.Parque::mostrarPremios()<<endl;
+			cout<<"El parque tiene los siguientes reconocimientos: "<<P.Parque::mostrarReconocimientos()<<endl;
+			cout<<"El horario del parque es: "<<P.Parque::mostrarHorario()<<endl;
+			cout<<"Las rutas disponibles en el parque son: "<<P.Parque::mostrarRutas()<<endl;
 
 		};
 		void setDatosParque(){
@@ -111,7 +122,7 @@ class Administrativo:public Usuario{
 				cout<<"Introduzca el nuevo horario: "<<endl;
 				cout<<"Dias de apertura: "; getline(cin,aux3.dias);
 				cout<<"\nHoras de trabajo :"; getline(cin,aux3.horas);
-			if(!(P.Parque::cambiarhorario(aux3))){
+			if(!(P.Parque::cambiarHorario(aux3))){
 				cout<<"Error cambiando el horario"<<endl;
 			}
 				break;
@@ -158,6 +169,7 @@ class Administrativo:public Usuario{
 				break;
 			default:
 				cout<<"El numero introducido no se corresponde con ninguna opcion"<<endl;
+				parque=P;
 			}
 		};
 		void obtenerDatosRutas(){
@@ -167,10 +179,59 @@ class Administrativo:public Usuario{
 		};
 
 		void changeRuta(){
+			int opcion,n;
+			Ruta aux;
+			//variables necesarias para el cambio en la ruta
+			string nombre, estado, nivel;
+			Sendero asendero;
+			Reserva reserva;
+			int aforo;
+			float duracion;
 			Parque P;
 			P=parque; //objeto de la clase parque declarado como global en el programa main
-			P.Parque::borrarRuta();
-		};
+			cout<<"¿Desea (1) modificar una ruta existente o  (2) añadir una nueva?"; cin>>opcion;
+			cout<<"\nLista de rutas en el parque: "<<endl;
+			P.Parque::mostrarRutas();
+
+			switch(opcion){
+			 case 1:
+				 cout<<"Introduzca los datos modificados de la ruta.\n En caso de que los datos no hayan sido modificados, introduzca los antiguos."<<endl;
+				 	cout<<"Introduzca nuevo nombre: "; cin>>nombre;
+				 		aux.Ruta::cambiarNombre(nombre);
+				 	cout<<"\nIntroduzca nueva duracion: "; cin>>duracion;
+				 		aux.Ruta::cambiarDuracion(duracion);
+					cout<<"\nIntroduzca nuevo aforo: "; cin>>aforo;
+						aux.Ruta::cambiarAforo(aforo);
+					cout<<"\nIntroduzca nuevo estado: "; cin>>estado;
+						aux.Ruta::cambiarEstado(estado);
+				 	cout<<"\nIntroduzca nuevo nivel: "; cin>>nivel;
+				 	aux.Ruta::cambiarNivel(nivel);
+				cout<<"\nIntroduzca el numero de senderos:"; cin>>n;
+				for(int i=0;i<n;i++){
+					cout<<"\nNombre del sendero: "; cin>>asendero.nombre;
+					cout<<"\nIntroduzca distancia del sendero: "; cin>>asendero.distancia;
+					if(!aux.Ruta::añadirSendero(asendero)){
+						cout<<"Error al introducir el nuevo sendero"<<endl;
+					}
+				}
+				if(!P.Parque::borrarRuta()){
+					cout<<"Error al borrar la ruta"<<endl;
+				}
+				if(!P.Parque::añadirRuta(aux)){
+					cout<<"Error al añadir la ruta"<<endl;
+				}
+				break;
+			 case 2:
+					if(!P.Parque::borrarRuta()){
+					cout<<"Error al borrar la ruta"<<endl;
+				}
+				break;
+			 default:
+				 cout<<"Opcion mal introducida"<<endl;
+				 break;
+
+			}
+			};
 
 		Cliente setCliente(){
 			string dni, nombre, apellidos, direccion, condicion;
@@ -187,7 +248,7 @@ class Administrativo:public Usuario{
 		};
 
 		void setReserva(Cliente cliente){
-			string codigo, dia, mes, año;
+			string codigo, dia, mes, año,nombre;
 			Reserva aux;
 			 Parque P;
 			 P=parque; //objeto de la clase parque declarado como global en el programa main
@@ -215,8 +276,8 @@ class Administrativo:public Usuario{
 			for(itc=clientes.begin();itc!=clientes.end();itc++){
 				if(dni==(*itc).Cliente::getDNI()){
 				cout<<"DNI: "<<(*itc).Cliente::getDNI()<<endl;
-				cout<<"Nombre: "<<(*itc).Cliente::getnombre()<<endl;
-				cout<<"Apellidos: "<<(*itc).Cliente::getapellidos()<<endl;
+				cout<<"Nombre: "<<(*itc).Cliente::getNombre()<<endl;
+				cout<<"Apellidos: "<<(*itc).Cliente::getApellidos()<<endl;
 				cout<<"Telefono: "<<(*itc).Cliente::getTelefono()<<endl;
 				cout<<"Direccion: "<<(*itc).Cliente::getDireccion()<<endl;
 				cout<<"Condicion: "<<(*itc).Cliente::getCondicion()<<endl;
@@ -231,9 +292,9 @@ if(encontrado==false){
 			Ruta R;
 			aux=cliente.Cliente::getReserva();
 			R=aux.Reserva::getRuta();
-			cout<<"Codigo: "<<aux.getCodigo()<<endl;
-			cout<<"Ruta: "<<R.mostrarNombre()<<endl;
-			cout<<"Fecha: "<<aux.getFecha()<<endl;
+			cout<<"Codigo: "<<aux.Reserva::getCodigo()<<endl;
+			cout<<"Ruta: "<<R.Ruta::mostrarNombre()<<endl;
+			cout<<"Fecha: "<<aux.Reserva::getFecha()<<endl;
 		};
 
 		void eliminarCliente(){
@@ -384,3 +445,148 @@ class Incidencia{
 		void mostrarIncidencia();
 
 };
+
+
+class Cliente{
+    private:
+        string nombre_;
+        string apellidos_;
+        string dni_;
+        int telefono_;
+        string direccion_;
+        string condicion_;
+        Reserva reserva_;
+
+    public:
+        Cliente(string nombre="", string apellidos="", string dni="", int telefono=0, string direccion="", string condicion="", Reserva Reserva);
+
+        void setNombre(string nombre);
+        string getNombre();
+
+        void setApellidos(string apellido1, string apellido2);
+        string getApellidos();
+
+        void setDNI(string dni);
+        string getDNI();
+
+        void setTelefono(int telefono);
+        int getTelefono();
+
+        void setDireccion(string direccion);
+        string getDireccion();
+
+        void setCondicion(string condicion);
+        string getCondicion();
+
+        void setReserva(Reserva reserva);
+        Reserva getReserva();
+};
+
+
+class Reserva{
+    private:
+        Ruta ruta_;
+        string fecha_;
+        string codigo_;
+
+    public:
+        Reserva(Ruta ruta, string fecha="", string codigo="");
+
+        void setRuta(Ruta ruta);
+        Ruta getRuta();
+
+        void setFecha(string day, string month, string year);
+        string getFecha();
+
+        void setCodigo(string codigo);
+        string getCodigo();
+
+};
+
+class Parque{
+	private:
+		string nombre_;
+		string ubicacion_;
+		float superficie_;
+		string zona_;
+		string fechaDeclaracion_;
+		list<Premio> premios_;
+		list<Reconocimiento> reconocimientos_;
+		Horario horario_;
+		list<Ruta> rutas_;
+
+	public:
+		string mostrarNombre();
+		string mostrarUbicacion();
+		float mostrarSuperficie();
+		string mostrarZona();
+		string mostrarFechaDeclaracion();
+		void mostrarPremios();
+		bool añadirPremio(Premio premio);
+		bool borrarPremio();
+		void mostrarReconocimientos();
+		bool añadirReconocimiento(Reconocimiento reconocimiento);
+		bool borrarReconocimiento();
+		string mostrarHorario();
+		bool cambiarHorario(Horario horario);
+		void mostrarRutas();
+		bool añadirRuta(Ruta ruta);
+		bool borrarRuta();
+
+};
+
+
+class Ruta{
+	private:
+		string nombre_;
+		float duracionMinutos_;
+		bool aPie_;
+		bool enBici_;
+		list<Sendero> senderos_;
+		list<Reserva> reserva_;
+		int aforoGrupos_;
+		string estado_;
+		string nivel_;
+
+	public:
+		string mostrarNombre();
+		bool cambiarNombre(string nombre);
+		float mostrarDuracion();
+		bool cambiarDuracion(float duracion);
+		string mostrarAPie();
+		string mostrarEnbici();
+		string mostrarMejor_aPie_o_enBici();
+		void mostrarSenderos();
+		bool añadirSendero(Sendero sendero);
+		bool borrarSendero();
+		void mostrarReservas();
+		bool añadirReserva(Reserva reserva);
+		bool borrarReserva();
+		int mostrarAforoTotal();
+		int mostrarAforoDisponible();
+		bool cambiarAforo(int aforoGrupos);
+		string mostrarEstado();
+		bool cambiarEstado(string estado);
+		string mostrarNivel();
+		bool cambiarNivel(string nivel);
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
