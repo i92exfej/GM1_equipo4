@@ -43,9 +43,41 @@ class Usuario{
 		string DNI_;
 
 	public:
-		Usuario(string dni, string password);
-		virtual string getDNI()=0;
-		bool compruebaPassword();
+		Usuario(string DNI, string password){
+			while(DNI.size() != 9 || password.size() != 6){
+				cout << "El formato del DNI y/o del password son incorrectos. Por favor vuelva a intentarlo.\n";
+				cout << "\tUsuario: ";
+				cin >> DNI;
+				cout << "\n\tPassword: ";
+				cin >> password;		
+			}
+			DNI_ = DNI;
+			password_ = password;
+		}
+		string getDNI()const{return DNI_;}
+		bool Usuario::compruebaPassword(){
+			string usuario = getDNI() + "," + password_;
+			ifstream f("listadeusuarios.txt");
+			if (f.is_open()){
+			string linea;
+			while(getline(f, linea)){
+				if(linea.find(usuario) != string::npos){
+				cout << "Usuario encontrado. Bienvenido.\n";
+				f.close();
+				return true;
+				}
+			}
+			cout << "El DNI y/o la contraseña son incorrectos.";
+			f.close();
+			return false;
+
+			}
+			else{
+				cout << "No se ha podido abrir el archivo.";
+				f.close();
+				return false;
+			}
+		}
 
 };
 
@@ -64,7 +96,7 @@ class Monitor:public Usuario{
 		void setNombre(string nombre);
 		void setApellidos(string apellido1, string apellido2);
 		void setTelefono(int telefono);
-		void setFechaNacimiento(string dia, string mes, string a�o);
+		void setFechaNacimiento(string dia, string mes, string año);
 		void setCorreo(string correo);
 		void setDireccion(string direccion);
 		string getDNI() override;
@@ -113,9 +145,9 @@ class Administrativo:public Usuario{
 			cout<<"Elija opcion de modificacion:"<<endl;
 			cout<<"1. Modificar horario"<<endl;
 			cout<<"2. Borrar Premio"<<endl;
-			cout<<"3. A�adir nuevo Premio"<<endl;
+			cout<<"3. Añadir nuevo Premio"<<endl;
 			cout<<"4. Borrar reconocimiento"<<endl;
-			cout<<"5. A�adir nuevo reconocimiento"<<endl;
+			cout<<"5. Añadir nuevo reconocimiento"<<endl;
 			cin>>opcion;
 			switch(opcion){
 			case 1:
@@ -139,7 +171,7 @@ class Administrativo:public Usuario{
 				cout<<"Introduzca nombre: "; cin>>aux1.nombre;
 				cout<<"\nIntroduzca fecha: "; getline(cin,aux1.fecha);
 				cout<<"\nIntroduzca descripcion: "; getline(cin,aux1.descripcion);
-				if(P.Parque::a�adirPremio(aux1)){
+				if(P.Parque::añadirPremio(aux1)){
 					cout<<"\nPremio introducido con exito"<<endl;
 				}
 				else{
@@ -160,7 +192,7 @@ class Administrativo:public Usuario{
 				cout<<"Introduzca nombre: "; cin>>aux2.nombre;
 				cout<<"\nIntroduzca fecha: "; getline(cin,aux2.fecha);
 				cout<<"\nIntroduzca descripcion: "; getline(cin,aux2.descripcion);
-				if(P.Parque::a�adirReconocimiento(aux2)){
+				if(P.Parque::añadirReconocimiento(aux2)){
 					cout<<"\nReconocimiento introducido con exito"<<endl;
 				}
 				else{
@@ -189,7 +221,7 @@ class Administrativo:public Usuario{
 			float duracion;
 			Parque P;
 			P=parque; //objeto de la clase parque declarado como global en el programa main
-			cout<<"�Desea (1) modificar una ruta existente o  (2) a�adir una nueva?"; cin>>opcion;
+			cout<<"¿Desea (1) modificar una ruta existente o  (2) añadir una nueva?"; cin>>opcion;
 			cout<<"\nLista de rutas en el parque: "<<endl;
 			P.Parque::mostrarRutas();
 
@@ -210,15 +242,15 @@ class Administrativo:public Usuario{
 				for(int i=0;i<n;i++){
 					cout<<"\nNombre del sendero: "; cin>>asendero.nombre;
 					cout<<"\nIntroduzca distancia del sendero: "; cin>>asendero.distancia;
-					if(!aux.Ruta::a�adirSendero(asendero)){
+					if(!aux.Ruta::añadirSendero(asendero)){
 						cout<<"Error al introducir el nuevo sendero"<<endl;
 					}
 				}
 				if(!P.Parque::borrarRuta()){
 					cout<<"Error al borrar la ruta"<<endl;
 				}
-				if(!P.Parque::a�adirRuta(aux)){
-					cout<<"Error al a�adir la ruta"<<endl;
+				if(!P.Parque::añadirRuta(aux)){
+					cout<<"Error al añadir la ruta"<<endl;
 				}
 				break;
 			 case 2:
@@ -248,7 +280,7 @@ class Administrativo:public Usuario{
 		};
 
 		void setReserva(Cliente cliente){
-			string codigo, dia, mes, a�o,nombre;
+			string codigo, dia, mes, año,nombre;
 			Reserva aux;
 			 Parque P;
 			 P=parque; //objeto de la clase parque declarado como global en el programa main
@@ -257,9 +289,9 @@ class Administrativo:public Usuario{
 			cout>>"Introduzca fecha de la reserva: "<<endl;
 			cout<<"\ndia: "; cin>>dia;
 			cout<<"\nmes: "; cin>>mes;
-			cout<<"\na�o: "; cin>>a�o;
+			cout<<"\naño: "; cin>>año;
 			aux.setCodigo(codigo);
-			aux.setFecha(dia,mes,a�o);
+			aux.setFecha(dia,mes,año);
 			 P.Parque::mostrarRutas();
 			cout<<"\nIntroduzca nombre de la ruta para la reserva:";
 			cin>>nombre;
@@ -318,10 +350,10 @@ cout<<"El cliente con dni "<<dni<<" no se encuentra en el sistema"<<endl;
 		};
 
 		Monitor setMonitor(){
-		string dni, pass, nombre, ape1, ape2, dia, mes, a�o, correo, direccion;
+		string dni, pass, nombre, ape1, ape2, dia, mes, año, correo, direccion;
 		int telefono;
 			cout<<"Introduca dni "; cin>>dni;
-			cout<<"\nIntroduca contrase�a del monitor "; cin>>pass;
+			cout<<"\nIntroduca contraseña del monitor "; cin>>pass;
 	Monitor moni(dni,pass);
 			cout<<"Introduzca nombre: "; cin<<nombre;
 			cout<<"\nIntroduzca apellido1: "; cin>>ape1;
@@ -329,20 +361,20 @@ cout<<"El cliente con dni "<<dni<<" no se encuentra en el sistema"<<endl;
 			cout<<"\nIntroduzca telefono: "; cin>>telefono;
 			cout<<"\nIntroduzca dia de nacimiento: "; cin>>dia;
 			cout<<"\nIntroduzca mes de nacimiento: "; cin>>mes;
-			cout<<"\nIntroduzca a�o de nacimiento: "; cin>>a�o;
+			cout<<"\nIntroduzca año de nacimiento: "; cin>>año;
 			cout<<"\nIntroduzca correo electronico: "; getline(cin,correo);
 			cout<<"\nIntroduzca direccion: "; getline(cin,direccion);
 		moni.Monitor::setApellidos(ape1,ape2);
 		moni.Monitor::setNombre(nombre);
 		moni.Monitor::setTelefono(telefono);
-		moni.Monitor::setFechaNacimiento(dia,mes,a�o);
+		moni.Monitor::setFechaNacimiento(dia,mes,año);
 		moni.Monitor::setCorreo(correo);
 		moni.Monitor::setDireccion(direccion);
 
 			return moni;
 		};
 		void modificarMonitor(string dni){
-			string nombre, ape1, ape2, dia, mes, a�o, correo, direccion;
+			string nombre, ape1, ape2, dia, mes, año, correo, direccion;
 					int telefono,opcion;
 
 			list<Monitor>::iterator itm;
@@ -367,11 +399,11 @@ cout<<"El cliente con dni "<<dni<<" no se encuentra en el sistema"<<endl;
 						cout<<"\nIntroduzca nuevo apellido2: "; cin>>ape2;
 						cout<<"\nIntroduzca nuevo dia de nacimiento: "; cin>>dia;
 						cout<<"\nIntroduzca nuevo mes de nacimiento: "; cin>>mes;
-						cout<<"\nIntroduzca nuevo a�o de nacimiento: "; cin>>a�o;
+						cout<<"\nIntroduzca nuevo año de nacimiento: "; cin>>año;
 
 						(*itm).Monitor::setApellidos(ape1,ape2);
 						(*itm).Monitor::setNombre(nombre);
-						(*itm).Monitor::setFechaNacimiento(dia,mes,a�o);
+						(*itm).Monitor::setFechaNacimiento(dia,mes,año);
 						break;
 					case 2:
 						cout<<"\nIntroduzca nuevo telefono: "; cin>>telefono;
@@ -432,17 +464,41 @@ class Incidencia{
 
 	public:
 		Incidencia(string nombre, string codigo, Ruta ruta, string descripcion);
-		void setNombre(string nombre);
-		void setCodigo(string codigo);
-		void setRuta(Ruta ruta);
-		void setDescripcion(string descripcion);
-		void setEstado(int estado);
-		string getNombre();
-		string getCodigo();
-		Ruta getRuta();
-		string getDescripcion();
-		int getEstado();
-		void mostrarIncidencia();
+		void setNombre(string nombre){nombre_ = nombre;}
+		void setCodigo(string codigo){codigo_ = codigo;}
+		void setRuta(Ruta ruta){ruta_ = ruta;}
+		void setDescripcion(string descripcion){descripcion_ = descripcion;}
+		void setEstado(int estado){
+			if(estado > 0 && estado < 4){
+			estado_ = estado;
+			}
+			else{
+				cout << "ERROR. Estado invalido";
+			}
+		}
+		string getNombre()const{return nombre_;}
+		string getCodigo()const{return codigo_;}
+		Ruta getRuta()const{return ruta_;}
+		string getDescripcion();const{return descripcion_;}
+		int getEstado()const{return estado_;}
+		void mostrarIncidencia(){
+			string cadestado;
+			switch(estado_){
+				case 1: cadestado == "Sin resolver";
+				break;
+				case 2: cadestado == "Resuelta";
+				break;
+				case 3: cadestado == "Almacenada";
+			}
+	
+			cout << "DATOS DE LA INCIDENCIA: \n";
+			cout << "\tNombre -> " << getNombre() << endl;
+			cout << "\tCodigo -> " << getCodigo() << endl;
+			cout << "\tPerteneciente a la ruta -> " << getRuta() << endl;
+			cout << "\tDescripcion -> " << getDescripcion() << endl;
+			cout << "\tEstado -> " << cadestado << endl;
+			cout << "-----------------------------------" << endl;
+		}
 
 };
 
@@ -522,15 +578,15 @@ class Parque{
 		string mostrarZona();
 		string mostrarFechaDeclaracion();
 		void mostrarPremios();
-		bool a�adirPremio(Premio premio);
+		bool añadirPremio(Premio premio);
 		bool borrarPremio();
 		void mostrarReconocimientos();
-		bool a�adirReconocimiento(Reconocimiento reconocimiento);
+		bool añadirReconocimiento(Reconocimiento reconocimiento);
 		bool borrarReconocimiento();
 		string mostrarHorario();
 		bool cambiarHorario(Horario horario);
 		void mostrarRutas();
-		bool a�adirRuta(Ruta ruta);
+		bool añadirRuta(Ruta ruta);
 		bool borrarRuta();
 
 };
@@ -557,10 +613,10 @@ class Ruta{
 		string mostrarEnbici();
 		string mostrarMejor_aPie_o_enBici();
 		void mostrarSenderos();
-		bool a�adirSendero(Sendero sendero);
+		bool añadirSendero(Sendero sendero);
 		bool borrarSendero();
 		void mostrarReservas();
-		bool a�adirReserva(Reserva reserva);
+		bool añadirReserva(Reserva reserva);
 		bool borrarReserva();
 		int mostrarAforoTotal();
 		int mostrarAforoDisponible();
