@@ -4,6 +4,7 @@
 #include <list>
 #include <fstream>
 
+
 using namespace std;
 
 struct Horario{
