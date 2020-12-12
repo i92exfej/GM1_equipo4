@@ -4,7 +4,6 @@
 #include <list>
 #include <fstream>
 
-
 using namespace std;
 
 struct Horario{
@@ -38,6 +37,10 @@ class Monitor;
 class Administrativo;
 class Incidencia;
 
+Parque parque;
+list<Cliente> clientes;
+list<Monitor> monitores;
+list<Incidencia> incidencias;
 
 class Usuario{
 	private:
@@ -51,7 +54,7 @@ class Usuario{
 				cout << "\tUsuario: ";
 				cin >> DNI;
 				cout << "\n\tPassword: ";
-				cin >> password;		
+				cin >> password;
 			}
 			DNI_ = DNI;
 			password_ = password;
@@ -94,24 +97,85 @@ class Monitor:public Usuario{
 		string direccion_;
 
 	public:
-		Monitor(string dni, string password,string nombre="",string apellidos="",int telefono=0,string fechaNacimiento="",string correo="",string direccion="");
-		void setNombre(string nombre);
-		void setApellidos(string apellido1, string apellido2);
-		void setTelefono(int telefono);
-		void setFechaNacimiento(string dia, string mes, string año);
-		void setCorreo(string correo);
-		void setDireccion(string direccion);
-		string getDNI() override;
-		string getNombre();
-		string getApellidos();
-		int getTelefono();
-		string getFechaNacimiento();
-		string getCorreo();
-		string getDireccion();
+		Monitor(string dni, string password,string nombre="",string apellidos="",int telefono=0,string fechaNacimiento="",string correo="",string direccion=""):Usuario(dni,password){
+			nombre_=nombre;
+			apellidos_=apellidos;
+			telefono_=telefono;
+			fechaNacimiento_=fechaNacimiento;
+			correo_=correo;
+			direccion_=direccion;
+		};
 
-		Incidencia setIncidencia(string nombre, string codigo,Ruta ruta, string descripcion);
-		Ruta createRuta();
+		void setNombre(string nombre){nombre_=nombre;};
+		void setApellidos(string apellido1, string apellido2){apellidos_=apellido1+apellido2;};
+		void setTelefono(int telefono){telefono_=telefono;};
+		void setFechaNacimiento(string dia, string mes, string anyo){fechaNacimiento_=dia+mes+anyo;};
+		void setCorreo(string correo){correo_=correo;}
+		void setDireccion(string direccion){direccion_=direccion;};
+		string getDNI() override{return DNI_;};
+		string getNombre(){return nombre_;};
+		string getApellidos(){return apellidos_;};
+		int getTelefono(){return telefono_;};
+		string getFechaNacimiento(){return fechaNacimiento_; };
+		string getCorreo(){return correo_;};
+		string getDireccion(){ return direccion_;};
+
+		Incidencia setIncidencia(string nombre, string codigo,Ruta ruta, string descripcion){
+		    int estado=1;
+		    Incidencia aux;
+		    aux.setNombre(nombre);
+		    aux.setCodigo(codigo);
+		    aux.setRuta(ruta);
+		    aux.setDescripcion(descripcion);
+		    aux.setEstado(estado);
+		    cout<<endl;
+		    incidencias.push_back(aux);
+		    return aux;
+		};
+
+		Ruta createRuta(){
+		    string nombre,nivel;
+		    float duracion;
+		    int aforo, nsenderos;
+		    Ruta rnueva;
+		    Sendero sendero;
+		    Parque P;
+		    P=parque;
+		    cout<<"Introduzca el nombre de la ruta nueva: ";
+		    cin>>nombre;
+		    rnueva.Ruta::cambiarNombre(nombre);
+		    cout<<"\nIndique la duracion de la ruta nueva: ";
+		    cin>>duracion;
+		    rnueva.Ruta::cambiarDuracion(duracion);
+		    cout<<"\nIntroduzca el aforo maximo de la ruta nueva: ";
+		    cin>>aforo;
+		    rnueva.Ruta::cambiarAforo(aforo);
+		    cout<<"\nIntroduzca el nivel de dificultad de la ruta: ";
+		    rnueva.Ruta::cambiarNivel(nivel);
+		    cout<<"\nIntroduzca el numero de senderos: ";
+		    cin>>nsenderos;
+
+
+		    for(int i; i<nsenderos; i++){
+		        cout<<"Indique el nombre del sendero: ";
+		        cin>>sendero.nombre;
+		        cout<<"\nintroduzca la distancia del sendero: ";
+		        cin>>sendero.distancia;
+
+		        if(!rnueva.Ruta::anyadirSendero(sendero)){
+		            cout<<"\nError al introducir el sendero nuevo\n";
+		        }
+		    }
+
+		    if(!P.Parque::anyadirRuta(rnueva)){
+		        cout<<"\nError al introducir la ruta nueva\n";
+		}
+		    return rnueva;
 };
+};
+
+
+
 
 class Administrativo:public Usuario{
 	private:
@@ -161,7 +225,7 @@ class Administrativo:public Usuario{
 			}
 				break;
 			case 2:
-				if(P.Paque::borrarPremio()){
+				if(P.Parque::borrarPremio()){
 					cout<<"Premio borrado con exito"<<endl;
 				}
 				else{
@@ -213,7 +277,13 @@ class Administrativo:public Usuario{
 		};
 
 		void changeRuta(){
-			int opcion,n;
+			Parque P;
+			P=parque;
+			P.Parque::mostrarRutas();
+			parque=P;
+			//El codigo a partir de aqui esta comentado para su posible eliminacion futura
+			//debido al cambio actual del codigo
+			/*int opcion,n;
 			Ruta aux;
 			//variables necesarias para el cambio en la ruta
 			string nombre, estado, nivel;
@@ -264,7 +334,7 @@ class Administrativo:public Usuario{
 				 cout<<"Opcion mal introducida"<<endl;
 				 break;
 
-			}
+			}*/
 			};
 
 		Cliente setCliente(){
@@ -438,7 +508,7 @@ cout<<"El cliente con dni "<<dni<<" no se encuentra en el sistema"<<endl;
 			int estado;
 			list<Incidencia>::iterator iti;
 					for(iti=incidencias.begin();iti!=incidencias.end();iti++){
-						if(codigo==(*iti.Incidencia::getCodigo)){
+						if(codigo==(*iti).Incidencia::getCodigo()){
 						(*iti).Incidencia::mostrarIncidencia();
 				cout<<"\nIntroduzca la nueva descripcion de la incidencia: "<<endl;
 				getline(cin,descripcion);
@@ -465,11 +535,17 @@ class Incidencia{
 		int estado_;
 
 	public:
-		Incidencia(string nombre, string codigo, Ruta ruta, string descripcion);
-		void setNombre(string nombre){nombre_ = nombre;}
-		void setCodigo(string codigo){codigo_ = codigo;}
-		void setRuta(Ruta ruta){ruta_ = ruta;}
-		void setDescripcion(string descripcion){descripcion_ = descripcion;}
+		Incidencia(string nombre="", string codigo="", Ruta ruta="", string descripcion=""){
+			setNombre(nombre);
+			setCodigo(codigo);
+			setRuta(ruta);
+			setDescripcion(descripcion);
+			setEstado(1);
+		}
+		void setNombre(string nombre){nombre_ = nombre;};
+		void setCodigo(string codigo){codigo_ = codigo;};
+		void setRuta(Ruta ruta){ruta_ = ruta;};
+		void setDescripcion(string descripcion){descripcion_ = descripcion;};
 		void setEstado(int estado){
 			if(estado > 0 && estado < 4){
 			estado_ = estado;
@@ -477,12 +553,12 @@ class Incidencia{
 			else{
 				cout << "ERROR. Estado invalido";
 			}
-		}
-		string getNombre()const{return nombre_;}
-		string getCodigo()const{return codigo_;}
-		Ruta getRuta()const{return ruta_;}
-		string getDescripcion();const{return descripcion_;}
-		int getEstado()const{return estado_;}
+		};
+		string getNombre()const{return nombre_;};
+		string getCodigo()const{return codigo_;};
+		Ruta getRuta()const{return ruta_;};
+		string getDescripcion()const{return descripcion_;};
+		int getEstado()const{return estado_;};
 		void mostrarIncidencia(){
 			string cadestado;
 			switch(estado_){
@@ -492,7 +568,7 @@ class Incidencia{
 				break;
 				case 3: cadestado == "Almacenada";
 			}
-	
+
 			cout << "DATOS DE LA INCIDENCIA: \n";
 			cout << "\tNombre -> " << getNombre() << endl;
 			cout << "\tCodigo -> " << getCodigo() << endl;
@@ -588,7 +664,7 @@ class Parque{
 		string mostrarHorario();
 		bool cambiarHorario(Horario horario);
 		void mostrarRutas();
-		bool añadirRuta(Ruta ruta);
+		bool anyadirRuta(Ruta ruta);
 		bool borrarRuta();
 
 };
@@ -615,10 +691,10 @@ class Ruta{
 		string mostrarEnbici();
 		string mostrarMejor_aPie_o_enBici();
 		void mostrarSenderos();
-		bool añadirSendero(Sendero sendero);
+		bool anyadirSendero(Sendero sendero);
 		bool borrarSendero();
 		void mostrarReservas();
-		bool añadirReserva(Reserva reserva);
+		bool anyadirReserva(Reserva reserva);
 		bool borrarReserva();
 		int mostrarAforoTotal();
 		int mostrarAforoDisponible();
@@ -628,7 +704,14 @@ class Ruta{
 		string mostrarNivel();
 		bool cambiarNivel(string nivel);
 
+
 };
+
+
+
+
+
+
 
 
 
