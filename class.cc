@@ -353,7 +353,7 @@ class Administrativo:public Usuario{
 		};
 
 		void setReserva(Cliente cliente){
-			string codigo, dia, mes, año,nombre;
+			string codigo, dia, mes, anyo,nombre;
 			Reserva aux;
 			 Parque P;
 			 P=parque; //objeto de la clase parque declarado como global en el programa main
@@ -362,9 +362,9 @@ class Administrativo:public Usuario{
 			cout>>"Introduzca fecha de la reserva: "<<endl;
 			cout<<"\ndia: "; cin>>dia;
 			cout<<"\nmes: "; cin>>mes;
-			cout<<"\naño: "; cin>>año;
+			cout<<"\naño: "; cin>>anyo;
 			aux.setCodigo(codigo);
-			aux.setFecha(dia,mes,año);
+			aux.setFecha(dia,mes,anyo);
 			 P.Parque::mostrarRutas();
 			cout<<"\nIntroduzca nombre de la ruta para la reserva:";
 			cin>>nombre;
@@ -423,7 +423,7 @@ cout<<"El cliente con dni "<<dni<<" no se encuentra en el sistema"<<endl;
 		};
 
 		Monitor setMonitor(){
-		string dni, pass, nombre, ape1, ape2, dia, mes, año, correo, direccion;
+		string dni, pass, nombre, ape1, ape2, dia, mes, anyo, correo, direccion;
 		int telefono;
 			cout<<"Introduca dni "; cin>>dni;
 			cout<<"\nIntroduca contraseña del monitor "; cin>>pass;
@@ -434,7 +434,7 @@ cout<<"El cliente con dni "<<dni<<" no se encuentra en el sistema"<<endl;
 			cout<<"\nIntroduzca telefono: "; cin>>telefono;
 			cout<<"\nIntroduzca dia de nacimiento: "; cin>>dia;
 			cout<<"\nIntroduzca mes de nacimiento: "; cin>>mes;
-			cout<<"\nIntroduzca año de nacimiento: "; cin>>año;
+			cout<<"\nIntroduzca año de nacimiento: "; cin>>anyo;
 			cout<<"\nIntroduzca correo electronico: "; getline(cin,correo);
 			cout<<"\nIntroduzca direccion: "; getline(cin,direccion);
 		moni.Monitor::setApellidos(ape1,ape2);
@@ -447,7 +447,7 @@ cout<<"El cliente con dni "<<dni<<" no se encuentra en el sistema"<<endl;
 			return moni;
 		};
 		void modificarMonitor(string dni){
-			string nombre, ape1, ape2, dia, mes, año, correo, direccion;
+			string nombre, ape1, ape2, dia, mes, anyo, correo, direccion;
 					int telefono,opcion;
 
 			list<Monitor>::iterator itm;
@@ -472,11 +472,11 @@ cout<<"El cliente con dni "<<dni<<" no se encuentra en el sistema"<<endl;
 						cout<<"\nIntroduzca nuevo apellido2: "; cin>>ape2;
 						cout<<"\nIntroduzca nuevo dia de nacimiento: "; cin>>dia;
 						cout<<"\nIntroduzca nuevo mes de nacimiento: "; cin>>mes;
-						cout<<"\nIntroduzca nuevo año de nacimiento: "; cin>>año;
+						cout<<"\nIntroduzca nuevo año de nacimiento: "; cin>>anyo;
 
 						(*itm).Monitor::setApellidos(ape1,ape2);
 						(*itm).Monitor::setNombre(nombre);
-						(*itm).Monitor::setFechaNacimiento(dia,mes,año);
+						(*itm).Monitor::setFechaNacimiento(dia,mes,anyo);
 						break;
 					case 2:
 						cout<<"\nIntroduzca nuevo telefono: "; cin>>telefono;
