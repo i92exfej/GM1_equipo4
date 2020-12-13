@@ -423,7 +423,7 @@ cout<<"El cliente con dni "<<dni<<" no se encuentra en el sistema"<<endl;
 		};
 
 		Monitor setMonitor(){
-		string dni, pass, nombre, ape1, ape2, dia, mes, año, correo, direccion;
+		string dni, pass, nombre, ape1, ape2, dia, mes, anyo, correo, direccion;
 		int telefono;
 			cout<<"Introduca dni "; cin>>dni;
 			cout<<"\nIntroduca contraseña del monitor "; cin>>pass;
@@ -434,20 +434,20 @@ cout<<"El cliente con dni "<<dni<<" no se encuentra en el sistema"<<endl;
 			cout<<"\nIntroduzca telefono: "; cin>>telefono;
 			cout<<"\nIntroduzca dia de nacimiento: "; cin>>dia;
 			cout<<"\nIntroduzca mes de nacimiento: "; cin>>mes;
-			cout<<"\nIntroduzca año de nacimiento: "; cin>>año;
+			cout<<"\nIntroduzca año de nacimiento: "; cin>>anyo;
 			cout<<"\nIntroduzca correo electronico: "; getline(cin,correo);
 			cout<<"\nIntroduzca direccion: "; getline(cin,direccion);
 		moni.Monitor::setApellidos(ape1,ape2);
 		moni.Monitor::setNombre(nombre);
 		moni.Monitor::setTelefono(telefono);
-		moni.Monitor::setFechaNacimiento(dia,mes,año);
+		moni.Monitor::setFechaNacimiento(dia,mes,anyo);
 		moni.Monitor::setCorreo(correo);
 		moni.Monitor::setDireccion(direccion);
 
 			return moni;
 		};
 		void modificarMonitor(string dni){
-			string nombre, ape1, ape2, dia, mes, año, correo, direccion;
+			string nombre, ape1, ape2, dia, mes, anyo, correo, direccion;
 					int telefono,opcion;
 
 			list<Monitor>::iterator itm;
@@ -472,11 +472,11 @@ cout<<"El cliente con dni "<<dni<<" no se encuentra en el sistema"<<endl;
 						cout<<"\nIntroduzca nuevo apellido2: "; cin>>ape2;
 						cout<<"\nIntroduzca nuevo dia de nacimiento: "; cin>>dia;
 						cout<<"\nIntroduzca nuevo mes de nacimiento: "; cin>>mes;
-						cout<<"\nIntroduzca nuevo año de nacimiento: "; cin>>año;
+						cout<<"\nIntroduzca nuevo año de nacimiento: "; cin>>anyo;
 
 						(*itm).Monitor::setApellidos(ape1,ape2);
 						(*itm).Monitor::setNombre(nombre);
-						(*itm).Monitor::setFechaNacimiento(dia,mes,año);
+						(*itm).Monitor::setFechaNacimiento(dia,mes,anyo);
 						break;
 					case 2:
 						cout<<"\nIntroduzca nuevo telefono: "; cin>>telefono;
