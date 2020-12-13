@@ -353,7 +353,7 @@ class Administrativo:public Usuario{
 		};
 
 		void setReserva(Cliente cliente){
-			string codigo, dia, mes, año,nombre;
+			string codigo, dia, mes, anyo,nombre;
 			Reserva aux;
 			 Parque P;
 			 P=parque; //objeto de la clase parque declarado como global en el programa main
@@ -362,9 +362,9 @@ class Administrativo:public Usuario{
 			cout>>"Introduzca fecha de la reserva: "<<endl;
 			cout<<"\ndia: "; cin>>dia;
 			cout<<"\nmes: "; cin>>mes;
-			cout<<"\naño: "; cin>>año;
+			cout<<"\naño: "; cin>>anyo;
 			aux.setCodigo(codigo);
-			aux.setFecha(dia,mes,año);
+			aux.setFecha(dia,mes,anyo);
 			 P.Parque::mostrarRutas();
 			cout<<"\nIntroduzca nombre de la ruta para la reserva:";
 			cin>>nombre;
