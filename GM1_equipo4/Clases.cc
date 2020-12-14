@@ -593,30 +593,41 @@ class Cliente{
         Reserva reserva_;
 
     public:
-        Cliente(string nombre="", string apellidos="", string dni="", int telefono=0, string direccion="", string condicion="", Reserva Reserva);
+  	Cliente(string nombre="", string apellidos="", string dni="", int telefono=0, string direccion="", string condicion="", Reserva reserva){
+        	nombre_=nombre;
+        	apellidos_=apellidos;
+        	dni_=dni;
+        	telefono_=telefono;
+        	direccion_=direccion;
+        	condicion_=condicion;
+        	reserva_=reserva;
+        };
 
-        void setNombre(string nombre);
-        string getNombre();
+        void setNombre(string nombre){nombre_=nombre;};
+        string getNombre(){return nombre_;};
 
-        void setApellidos(string apellido1, string apellido2);
-        string getApellidos();
+        void setApellidos(string apellido1, string apellido2){apellidos_=apellido1+apellido2;};
+        string getApellidos(){return apellidos_;};
 
-        void setDNI(string dni);
-        string getDNI();
+        void setDNI(string dni){dni_=dni;};
+        string getDNI(){return dni_;};
 
-        void setTelefono(int telefono);
-        int getTelefono();
+        void setTelefono(int telefono){telefono_=telefono;};
+        int getTelefono(){return telefono_;};
 
-        void setDireccion(string direccion);
-        string getDireccion();
+        void setDireccion(string direccion){direccion_=direccion;};
+        string getDireccion(){return direccion_;};
 
-        void setCondicion(string condicion);
-        string getCondicion();
+        void setCondicion(string condicion){condicion_=condicion;};
+        string getCondicion(){return condicion_;};
 
-        void setReserva(Reserva reserva);
-        Reserva getReserva();
+        void setReserva(Reserva reserva){
+        	reserva_=reserva;
+        };
+        Reserva getReserva(){
+        	return reserva_;
+        };
 };
-
 
 class Reserva{
     private:
