@@ -31,17 +31,450 @@ struct Sendero{
 class Cliente;
 class Reserva;
 class Parque;
-class Ruta;
 class Usuario;
 class Monitor;
 class Administrativo;
 class Incidencia;
+class Ruta;
 
-Parque parque;
 list<Cliente> clientes;
 list<Monitor> monitores;
 list<Incidencia> incidencias;
 
+
+
+//clase ruta
+class Ruta{
+	private:
+		string nombre_;
+		float duracionMinutos_;
+		bool aPie_;
+		bool enBici_;
+		list<Sendero> senderos_;
+		list<Reserva> reserva_;
+		int aforoGrupos_;
+		string estado_;
+		string nivel_;
+
+	public:
+		string mostrarNombre();
+		bool cambiarNombre(string nombre);
+		float mostrarDuracion();
+		bool cambiarDuracion(float duracion);
+		string mostrarAPie();
+		string mostrarEnbici();
+		string mostrarMejor_aPie_o_enBici();
+		void mostrarSenderos();
+		bool anyadirSendero(Sendero sendero);
+		bool borrarSendero();
+		void mostrarReservas();
+		bool anyadirReserva(Reserva reserva);
+		bool borrarReserva();
+		int mostrarAforoTotal();
+		int mostrarAforoDisponible();
+		bool cambiarAforo(int aforoGrupos);
+		string mostrarEstado();
+		bool cambiarEstado(string estado);
+		string mostrarNivel();
+		bool cambiarNivel(string nivel);
+
+
+};
+
+
+//clase reserva
+class Reserva{
+    private:
+        Ruta ruta_;
+        string fecha_;
+        string codigo_;
+
+    public:
+        Reserva(Ruta ruta, string fecha="", string codigo="");
+        Reserva(string fecha="",string codigo=""){/*constructor sin ruta*/};
+
+        void setRuta(Ruta ruta);
+        Ruta getRuta();
+
+        void setFecha(string day, string month, string year);
+        string getFecha();
+
+        void setCodigo(string codigo);
+        string getCodigo();
+
+};
+
+
+
+//clase cliente
+class Cliente{
+    private:
+        string nombre_;
+        string apellidos_;
+        string dni_;
+        int telefono_;
+        string direccion_;
+        string condicion_;
+        Reserva reserva_;
+
+    public:
+  	Cliente(string nombre, string apellidos, string dni, int telefono, string direccion, string condicion, Reserva reserva){
+        	nombre_=nombre;
+        	apellidos_=apellidos;
+        	dni_=dni;
+        	telefono_=telefono;
+        	direccion_=direccion;
+        	condicion_=condicion;
+        	reserva_=reserva;
+        };
+  	Cliente();
+
+        void setNombre(string nombre){nombre_=nombre;};
+        string getNombre(){return nombre_;};
+
+        void setApellidos(string apellido1, string apellido2){apellidos_=apellido1+apellido2;};
+        string getApellidos(){return apellidos_;};
+
+        void setDNI(string dni){dni_=dni;};
+        string getDNI(){return dni_;};
+
+        void setTelefono(int telefono){telefono_=telefono;};
+        int getTelefono(){return telefono_;};
+
+        void setDireccion(string direccion){direccion_=direccion;};
+        string getDireccion(){return direccion_;};
+
+        void setCondicion(string condicion){condicion_=condicion;};
+        string getCondicion(){return condicion_;};
+
+        void setReserva(Reserva reserva){
+        	reserva_=reserva;
+        };
+        Reserva getReserva(){
+        	return reserva_;
+        };
+};
+
+
+//clase parque
+class Parque{
+	private:
+		string nombre_;
+		string ubicacion_;
+		float superficie_;
+		string zona_;
+		string fechaDeclaracion_;
+		list<Premio> premios_;
+		list<Reconocimiento> reconocimientos_;
+		Horario horario_;
+		list<Ruta> rutas_;
+
+	public:
+		string mostrarNombre()const{return nombre_;};
+		string mostrarUbicacion()const{return ubicacion_;};
+		float mostrarSuperficie(){return superficie_;};
+		string mostrarZona()const{return zona_;};
+		string mostrarFechaDeclaracion()const{return fechaDeclaracion_;};
+		void mostrarPremios(){
+			list<Premio>::iterator itp;
+			for(itp=premios_.begin();itp!=premios_.end();itp++){
+						cout<<"Nombre del premio: "<<(*itp).nombre<<endl;
+						cout<<"Fecha en que se consiguio "<<(*itp).fecha<<endl;
+						cout<<"Descripcion: "<<(*itp).descripcion<<endl;
+			}
+		};
+		bool anyadirPremio(Premio premio){
+			list<Premio>::iterator itp;
+					for(itp=premios_.begin();itp!=premios_.end();itp++){
+						if(premio.nombre==(*itp).nombre){
+							return false;
+						}
+					}
+				premios_.push_back(premio);
+				return true;
+		}
+		bool borrarPremio(){
+			list<Premio>::iterator itre;
+			Premio premio;
+			cout<<"Introduzca nombre del premio a borrar: ";
+			getline(cin,premio.nombre);
+					for(itre=premios_.begin();itre!=premios_.end();itre++){
+						if(premio.nombre==(*itre).nombre){
+							premios_.erase(itre);
+							return true;
+						}
+					}
+				return false;
+		};
+
+		void mostrarReconocimientos(){
+			list<Reconocimiento>::iterator itre;
+			for(itre=reconocimientos_.begin();itre!=reconocimientos_.end();itre++){
+						cout<<"Nombre del reconocimiento: "<<(*itre).nombre<<endl;
+						cout<<"Fecha en que se consiguio "<<(*itre).fecha<<endl;
+						cout<<"Descripcion: "<<(*itre).descripcion<<endl;
+			}
+		};
+		bool anyadirReconocimiento(Reconocimiento reconocimiento){
+			list<Premio>::iterator itre;
+					for(itre=premios_.begin();itre!=premios_.end();itre++){
+						if(reconocimiento.nombre==(*itre).nombre){
+							return false;
+						}
+					}
+				reconocimientos_.push_back(reconocimiento);
+				return true;
+		}
+		bool borrarReconocimiento(){
+			list<Reconocimiento>::iterator itre;
+			Reconocimiento reconocimiento;
+			cout<<"Introduzca nombre del premio a borrar: ";
+			getline(cin,reconocimiento.nombre);
+					for(itre=reconocimientos_.begin();itre!=reconocimientos_.end();itre++){
+						if(reconocimiento.nombre==(*itre).nombre){
+							reconocimientos_.erase(itre);
+							return true;
+						}
+					}
+				return false;
+		};
+
+
+		Horario mostrarHorario()const{return horario_;};
+		bool cambiarHorario(Horario horario){
+			if(horario_.horas==horario.horas&&horario_.dias==horario.dias){
+				cout<<"No se ha modificado el horario ya que el introducido es el mismo"<<endl;
+				return false;
+			}
+			else{
+			horario_.horas=horario.horas;
+			horario_.dias=horario.dias;
+			return true;}
+		};
+		void mostrarRutas(){
+			list<Ruta>::iterator itr;
+
+			//variables de rutas
+			string nombre;
+			float duracion;
+			int aforo;
+			string estado, nivel;
+
+			//variables para senderos
+			Sendero sendero;
+
+			//variables para Reservas
+			Reserva res;
+			string dia,mes,anyo, codigo;
+
+			//variables para condiciones
+			int opcion;
+			char temp1;
+			int temp2;
+
+			cout<<"¿Que desea?"<<endl;
+			cout<<"1. Ver todas las rutas"<<endl;
+			cout<<"2. Modificar una ruta"<<endl;
+			cout<<"3. Modificar reserva"<<endl;
+			cin>>opcion;
+			switch(opcion){
+				case 1:
+					for(itr=rutas_.begin();itr!=rutas_.end();itr++){
+						cout<<"Nombre de la ruta: "<<(*itr).mostrarNombre()<<endl;
+						cout<<"Duracion estimada: "<<(*itr).mostrarDuracion()<<endl;
+						cout<<"Realizable a pie: "<<(*itr).mostrarAPie()<<endl;
+						cout<<"Realizable en bici: "<<(*itr).mostrarEnbici()<<endl;
+						cout<<"Mejor opccion para realizar la ruta: "<<(*itr).mostrarMejor_aPie_o_enBici()<<endl;
+						(*itr).mostrarSenderos();
+						(*itr).mostrarReservas();
+						cout<<"El aforo total de la ruta es"<<(*itr).mostrarAforoTotal()<<endl;
+						cout<<"El aforo disponible es: "<<(*itr).mostrarAforoDisponible()<<endl;
+						cout<<"El nivel de dificultad de la ruta es: "<<(*itr).mostrarNivel()<<endl;
+						cout<<"Estado de la ruta: "<<(*itr).mostrarEstado()<<endl;
+
+					}
+						break;
+				case 2:
+					cout<<"Introduzca nombre de la ruta que desea cambiar: ";
+					getline(cin,nombre);
+					for(itr=rutas_.begin();itr!=rutas_.end();itr++){
+							if(nombre==(*itr).mostrarNombre()){
+
+								cout<<"\nIntroduzca nuevo nombre: ";
+							getline(cin,nombre);
+							if(nombre!=(*itr).mostrarNombre()){
+								(*itr).cambiarNombre(nombre);}
+
+							cout<<"\nIntroduzca nueva duracion: ";
+								cin>>duracion;
+								if(duracion!=(*itr).mostrarDuracion()){
+								(*itr).cambiarDuracion(duracion);}
+
+							cout<<"desea añadir o borrar senderos"<<endl;
+							cout<<"Para añadir introduzca 'a'"<<endl;
+							cout<<"Para borrar introduzca 'b"<<endl;
+							cin>>temp1;
+							if(temp1=='a'){
+								cout<<"\nIntroduzca el numero de senderos:"; cin>>temp2;
+
+							for(int i=0;i<temp2;i++){
+								cout<<"\nNombre del sendero: "; cin>>sendero.nombre;
+								cout<<"\nIntroduzca distancia del sendero: "; cin>>sendero.distancia;
+							if((*itr).Ruta::anyadirSendero(sendero)){
+							cout<<"Error al introducir el nuevo sendero"<<endl;
+									}
+								}
+							}
+							if(temp1=='b'){
+								if(!(*itr).borrarSendero()){
+									cout<<"Error al borrar el sendero"<<endl;
+								}
+							}
+
+							cout<<"Introduzca el nuevo aforo: ";
+							cin>>aforo;
+							if(aforo!=(*itr).mostrarAforoTotal()){
+								(*itr).cambiarAforo(aforo);
+							}
+
+							cout<<"Introduzca el nuevo estado: ";
+							cin>>estado;
+							if(estado!=(*itr).mostrarEstado()){
+								(*itr).cambiarEstado(estado);
+							}
+
+							cout<<"Introduzca el nuevo nivel: ";
+							cin>>nivel;
+							if(nivel!=(*itr).mostrarNivel()){
+								(*itr).cambiarNivel(nivel);
+							}
+					break;
+							}}
+				cout<<"\nRuta no encontrada"<<endl;
+
+					break;
+				case 3:
+					cout<<"\nDesea añadir (introduzca 'a') nueva reserva o borrar (introduzca 'b') una reserva: ";
+					cin>>temp1;
+					if(temp1=='a'){
+						cout<<"\nIntroducza codigo de la reserva: ";
+								cin>>codigo;
+						cout<<"\nIntroduzca dia de la reserva: ";
+							cin>>dia;
+						cout<<"\nIntroduzca mes de la reserva: ";
+							cin>>mes;
+						cout<<"\nIntroduzca anyo de la reserva: ";
+							cin>>anyo;
+							res.Reserva::setCodigo(codigo);
+							res.Reserva::setFecha(dia,mes,anyo);
+							res.Reserva::setRuta((*itr));
+
+						if(!(*itr).anyadirReserva(res)){
+							cout<<"Error al añadir la reserva"<<endl;
+						}
+					}
+					if(temp1=='b'){
+						if(!(*itr).borrarReserva()){
+							cout<<"La reserva no se ha podido borrar"<<endl;
+						}
+					}
+					break;
+				default:
+					cout<<"Opcion incorrecta"<<endl;
+					break;
+			}
+		};
+
+		bool anyadirRuta(Ruta ruta){
+		list<Ruta>::iterator itr;
+		for(itr=rutas_.begin();itr!=rutas_.end();itr++){
+			if(ruta.Ruta::mostrarNombre()==(*itr).Ruta::mostrarNombre()){
+				return false;
+			}
+		}
+		rutas_.push_back(ruta);
+				return true;
+		};
+
+		bool borrarRuta(){
+			list<Ruta>::iterator itr;
+			Ruta ruta;
+			string nombre;
+			cout<<"Introduzca nombre de la ruta: ";
+					getline(cin,nombre);
+			ruta.cambiarNombre(nombre);
+
+			for(itr=rutas_.begin();itr!=rutas_.end();itr++){
+				if(ruta.Ruta::mostrarNombre()==(*itr).Ruta::mostrarNombre()){
+					rutas_.erase(itr);
+					return true;
+				}
+			}
+					return false;
+		};
+
+};
+Parque parque;
+
+//clase incidencia.
+
+class Incidencia{
+	private:
+		string nombre_;
+		string codigo_;
+		Ruta ruta_;
+		string descripcion_;
+		int estado_;
+
+	public:
+		Incidencia(string nombre, string codigo, Ruta ruta, string descripcion){
+			setNombre(nombre);
+			setCodigo(codigo);
+			setRuta(ruta);
+			setDescripcion(descripcion);
+			setEstado(1);
+		}
+
+		void setNombre(string nombre){nombre_ = nombre;};
+		void setCodigo(string codigo){codigo_ = codigo;};
+		void setRuta(Ruta ruta){ruta_ = ruta;};
+		void setDescripcion(string descripcion){descripcion_ = descripcion;};
+		void setEstado(int estado){
+			if(estado > 0 && estado < 4){
+			estado_ = estado;
+			}
+			else{
+				cout << "ERROR. Estado invalido";
+			}
+		};
+		string getNombre()const{return nombre_;};
+		string getCodigo()const{return codigo_;};
+		Ruta getRuta()const{return ruta_;};
+		string getDescripcion()const{return descripcion_;};
+		int getEstado()const{return estado_;};
+		void mostrarIncidencia(){
+			string cadestado;
+			switch(estado_){
+				case 1: cadestado == "Sin resolver";
+				break;
+				case 2: cadestado == "Resuelta";
+				break;
+				case 3: cadestado == "Almacenada";
+			}
+
+			cout << "DATOS DE LA INCIDENCIA: \n";
+			cout << "\tNombre -> " << getNombre() << endl;
+			cout << "\tCodigo -> " << getCodigo() << endl;
+			cout << "\tPerteneciente a la ruta -> " << ruta_.mostrarNombre() << endl;
+			cout << "\tDescripcion -> " << getDescripcion() << endl;
+			cout << "\tEstado -> " << cadestado << endl;
+			cout << "-----------------------------------" << endl;
+		}
+
+};
+
+
+//clases usuario monitor y administrativo.
 class Usuario{
 	private:
 		string password_;
@@ -59,9 +492,10 @@ class Usuario{
 			DNI_ = DNI;
 			password_ = password;
 		}
-		string getDNI()const{return DNI_;}
-		bool Usuario::compruebaPassword(){
-			string usuario = getDNI() + "," + password_;
+		string dni(){return DNI_;};
+		virtual string getDNI()=0;
+		bool compruebaPassword(){
+			string usuario = DNI_ + "," + password_;
 			ifstream f("listadeusuarios.txt");
 			if (f.is_open()){
 			string linea;
@@ -86,7 +520,7 @@ class Usuario{
 
 };
 
-
+//clases ususario monitor y administrativo
 class Monitor:public Usuario{
 	private:
 		string nombre_;
@@ -112,7 +546,7 @@ class Monitor:public Usuario{
 		void setFechaNacimiento(string dia, string mes, string anyo){fechaNacimiento_=dia+mes+anyo;};
 		void setCorreo(string correo){correo_=correo;}
 		void setDireccion(string direccion){direccion_=direccion;};
-		string getDNI() override{return DNI_;};
+		string getDNI()override{return dni();};
 		string getNombre(){return nombre_;};
 		string getApellidos(){return apellidos_;};
 		int getTelefono(){return telefono_;};
@@ -121,15 +555,7 @@ class Monitor:public Usuario{
 		string getDireccion(){ return direccion_;};
 
 		Incidencia setIncidencia(string nombre, string codigo,Ruta ruta, string descripcion){
-		    int estado=1;
-		    Incidencia aux;
-		    aux.setNombre(nombre);
-		    aux.setCodigo(codigo);
-		    aux.setRuta(ruta);
-		    aux.setDescripcion(descripcion);
-		    aux.setEstado(estado);
-		    cout<<endl;
-		    incidencias.push_back(aux);
+		    Incidencia aux(nombre,codigo,ruta,descripcion);
 		    return aux;
 		};
 
@@ -183,8 +609,7 @@ class Administrativo:public Usuario{
 
 	public:
 		Administrativo(string dni, string password):Usuario(dni,password){};
-		string getDNI() override{return DNI_;
-		};
+		string getDNI()override{return dni();};
 
 		void obtenerDatosParque(){
 			Parque P;
@@ -194,10 +619,14 @@ class Administrativo:public Usuario{
 			cout<<"Superficie del parque "<<P.Parque::mostrarSuperficie()<<" hectareas"<<endl;
 			cout<<"Zonas contenidas en el parque"<<P.Parque::mostrarZona()<<endl;
 			cout<<"Fecha de declaracion de parque natural: "<<P.Parque::mostrarFechaDeclaracion()<<endl;
-			cout<<"El parque ha obtenido los premios: "<<P.Parque::mostrarPremios()<<endl;
-			cout<<"El parque tiene los siguientes reconocimientos: "<<P.Parque::mostrarReconocimientos()<<endl;
-			cout<<"El horario del parque es: "<<P.Parque::mostrarHorario()<<endl;
-			cout<<"Las rutas disponibles en el parque son: "<<P.Parque::mostrarRutas()<<endl;
+			cout<<"El parque ha obtenido los premios: "<<endl;
+			P.Parque::mostrarPremios();
+			cout<<"\nEl parque tiene los siguientes reconocimientos: "<<endl;
+			P.Parque::mostrarReconocimientos();
+			cout<<"\nEl horario del parque es: "<<endl;
+			P.Parque::mostrarHorario();
+			cout<<"\nLas rutas disponibles en el parque son: "<<endl;
+			P.Parque::mostrarRutas();
 
 		};
 		void setDatosParque(){
@@ -358,8 +787,8 @@ class Administrativo:public Usuario{
 			 Parque P;
 			 P=parque; //objeto de la clase parque declarado como global en el programa main
 
-			cout>>"Introduzca codigo de la reserva: "; cin>>codigo;
-			cout>>"Introduzca fecha de la reserva: "<<endl;
+			cout<<"Introduzca codigo de la reserva: "; cin>>codigo;
+			cout<<"Introduzca fecha de la reserva: "<<endl;
 			cout<<"\ndia: "; cin>>dia;
 			cout<<"\nmes: "; cin>>mes;
 			cout<<"\naño: "; cin>>anyo;
@@ -405,11 +834,13 @@ if(encontrado==false){
 		void eliminarCliente(){
 		bool encontrado=false;
 		string dni;
+		//Cliente borrar;
 		cout<<"Introduzca dni del cliente a buscar: "; cin>>dni;
 		list<Cliente>::iterator itc;
 		for(itc=clientes.begin();itc!=clientes.end();itc++){
 			if(dni==(*itc).Cliente::getDNI()){
-				clientes.remove(dni);
+				//borrar=*itc;
+				clientes.erase(itc);
 		encontrado=true;
 		}}
 if(encontrado==false){
@@ -418,8 +849,10 @@ cout<<"El cliente con dni "<<dni<<" no se encuentra en el sistema"<<endl;
 
 		};
 		void eliminarReserva(Cliente cliente){
-			Reserva clear;
-			cliente.Cliente::setReserva(clear);
+			Ruta aux1;
+			Reserva aux(aux1);
+
+			cliente.Cliente::setReserva(aux);
 		};
 
 		Monitor setMonitor(){
@@ -428,7 +861,7 @@ cout<<"El cliente con dni "<<dni<<" no se encuentra en el sistema"<<endl;
 			cout<<"Introduca dni "; cin>>dni;
 			cout<<"\nIntroduca contraseña del monitor "; cin>>pass;
 	Monitor moni(dni,pass);
-			cout<<"Introduzca nombre: "; cin<<nombre;
+			cout<<"Introduzca nombre: "; cin>>nombre;
 			cout<<"\nIntroduzca apellido1: "; cin>>ape1;
 			cout<<"\nIntroduzca apellido2: "; cin>>ape2;
 			cout<<"\nIntroduzca telefono: "; cin>>telefono;
@@ -467,7 +900,7 @@ cout<<"El cliente con dni "<<dni<<" no se encuentra en el sistema"<<endl;
 					cin>>opcion;
 				switch(opcion){
 					case 1:
-						cout<<"Introduzca nuevo nombre: "; cin<<nombre;
+						cout<<"Introduzca nuevo nombre: "; cin>>nombre;
 						cout<<"\nIntroduzca nuevo apellido1: "; cin>>ape1;
 						cout<<"\nIntroduzca nuevo apellido2: "; cin>>ape2;
 						cout<<"\nIntroduzca nuevo dia de nacimiento: "; cin>>dia;
@@ -526,437 +959,3 @@ cout<<"El cliente con dni "<<dni<<" no se encuentra en el sistema"<<endl;
 					}
 				};
 };
-
-class Incidencia{
-	private:
-		string nombre_;
-		string codigo_;
-		Ruta ruta_;
-		string descripcion_;
-		int estado_;
-
-	public:
-		Incidencia(string nombre="", string codigo="", Ruta ruta="", string descripcion=""){
-			setNombre(nombre);
-			setCodigo(codigo);
-			setRuta(ruta);
-			setDescripcion(descripcion);
-			setEstado(1);
-		}
-		void setNombre(string nombre){nombre_ = nombre;};
-		void setCodigo(string codigo){codigo_ = codigo;};
-		void setRuta(Ruta ruta){ruta_ = ruta;};
-		void setDescripcion(string descripcion){descripcion_ = descripcion;};
-		void setEstado(int estado){
-			if(estado > 0 && estado < 4){
-			estado_ = estado;
-			}
-			else{
-				cout << "ERROR. Estado invalido";
-			}
-		};
-		string getNombre()const{return nombre_;};
-		string getCodigo()const{return codigo_;};
-		Ruta getRuta()const{return ruta_;};
-		string getDescripcion()const{return descripcion_;};
-		int getEstado()const{return estado_;};
-		void mostrarIncidencia(){
-			string cadestado;
-			switch(estado_){
-				case 1: cadestado == "Sin resolver";
-				break;
-				case 2: cadestado == "Resuelta";
-				break;
-				case 3: cadestado == "Almacenada";
-			}
-
-			cout << "DATOS DE LA INCIDENCIA: \n";
-			cout << "\tNombre -> " << getNombre() << endl;
-			cout << "\tCodigo -> " << getCodigo() << endl;
-			cout << "\tPerteneciente a la ruta -> " << getRuta() << endl;
-			cout << "\tDescripcion -> " << getDescripcion() << endl;
-			cout << "\tEstado -> " << cadestado << endl;
-			cout << "-----------------------------------" << endl;
-		}
-
-};
-
-
-class Cliente{
-    private:
-        string nombre_;
-        string apellidos_;
-        string dni_;
-        int telefono_;
-        string direccion_;
-        string condicion_;
-        Reserva reserva_;
-
-    public:
-  	Cliente(string nombre="", string apellidos="", string dni="", int telefono=0, string direccion="", string condicion="", Reserva reserva){
-        	nombre_=nombre;
-        	apellidos_=apellidos;
-        	dni_=dni;
-        	telefono_=telefono;
-        	direccion_=direccion;
-        	condicion_=condicion;
-        	reserva_=reserva;
-        };
-
-        void setNombre(string nombre){nombre_=nombre;};
-        string getNombre(){return nombre_;};
-
-        void setApellidos(string apellido1, string apellido2){apellidos_=apellido1+apellido2;};
-        string getApellidos(){return apellidos_;};
-
-        void setDNI(string dni){dni_=dni;};
-        string getDNI(){return dni_;};
-
-        void setTelefono(int telefono){telefono_=telefono;};
-        int getTelefono(){return telefono_;};
-
-        void setDireccion(string direccion){direccion_=direccion;};
-        string getDireccion(){return direccion_;};
-
-        void setCondicion(string condicion){condicion_=condicion;};
-        string getCondicion(){return condicion_;};
-
-        void setReserva(Reserva reserva){
-        	reserva_=reserva;
-        };
-        Reserva getReserva(){
-        	return reserva_;
-        };
-};
-
-class Reserva{
-    private:
-        Ruta ruta_;
-        string fecha_;
-        string codigo_;
-
-    public:
-        Reserva(Ruta ruta="", string fecha="", string codigo="");
-
-        void setRuta(Ruta ruta);
-        Ruta getRuta();
-
-        void setFecha(string day, string month, string year);
-        string getFecha();
-
-        void setCodigo(string codigo);
-        string getCodigo();
-
-};
-
-class Parque{
-	private:
-		string nombre_;
-		string ubicacion_;
-		float superficie_;
-		string zona_;
-		string fechaDeclaracion_;
-		list<Premio> premios_;
-		list<Reconocimiento> reconocimientos_;
-		Horario horario_;
-		list<Ruta> rutas_;
-
-	public:
-		string mostrarNombre()const{return nombre_;};
-		string mostrarUbicacion()const{return ubicacion_;};
-		float mostrarSuperficie(){return superficie_;};
-		string mostrarZona()const{return zona_;};
-		string mostrarFechaDeclaracion()const{return fechaDeclaracion_;};
-		void mostrarPremios(){
-			list<Premio>::iterator itp;
-			for(itp=premios_.begin();itp!=premios_.end();itp++){
-						cout<<"Nombre del premio: "<<(*itp).nombre<<endl;
-						cout<<"Fecha en que se consiguio "<<(*itp).fecha<<endl;
-						cout<<"Descripcion: "<<(*itp).descripcion<<endl;
-			}
-		};
-		bool anyadirPremio(Premio premio){
-			list<Premio>::iterator itp;
-					for(itp=premios_.begin();itp!=premios_.end();itp++){
-						if(premio.nombre==(*itp).nombre){
-							return false;
-						}
-					}
-				premios_.push_back(premio);
-				return true;
-		}
-		bool borrarPremio(){
-			list<Premio>::iterator itre;
-			Premio premio;
-			cout>>"Introduzca nombre del premio a borrar: ";
-			getline(cin,premio.nombre);
-					for(itre=premios_.begin();itre!=premios_.end();itre++){
-						if(premio.nombre==(*itre).nombre){
-							premios_.erase(itre);
-							return true;
-						}
-					}
-				return false;
-		};
-
-		void mostrarReconocimientos(){
-			list<Reconocimiento>::iterator itre;
-			for(itre=premios_.begin();itre!=premios_.end();itre++){
-						cout<<"Nombre del reconocimiento: "<<(*itre).nombre<<endl;
-						cout<<"Fecha en que se consiguio "<<(*itre).fecha<<endl;
-						cout<<"Descripcion: "<<(*itre).descripcion<<endl;
-			}
-		};
-		bool anyadirReconocimiento(Reconocimiento reconocimiento){
-			list<Premio>::iterator itre;
-					for(itre=premios_.begin();itre!=premios_.end();itre++){
-						if(reconocimiento.nombre==(*itre).nombre){
-							return false;
-						}
-					}
-				reconocimientos_.push_back(reconocimiento);
-				return true;
-		}
-		bool borrarReconocimiento(){
-			list<Reconocimiento>::iterator itre;
-			Reconocimiento reconocimiento;
-			cout>>"Introduzca nombre del premio a borrar: ";
-			getline(cin,reconocimiento.nombre);
-					for(itre=premios_.begin();itre!=premios_.end();itre++){
-						if(reconocimiento.nombre==(*itre).nombre){
-							reconocimientos_.erase(itre);
-							return true;
-						}
-					}
-				return false;
-		};
-
-
-		Horario mostrarHorario()const{return horario_;};
-		bool cambiarHorario(Horario horario){
-			if(horario_.horas==horario.horas&&horario_.dias==horario.dias){
-				cout<<"No se ha modificado el horario ya que el introducido es el mismo"<<endl;
-				return false;
-			}
-			else{
-			horario_.horas=horario.horas;
-			horario_.dias=horario.dias;
-			return true;}
-		};
-		void mostrarRutas(){
-			list<Ruta>::iterator itr;
-
-			//variables de rutas
-			string nombre;
-			float duracion;
-			int aforo;
-			string estado, nivel;
-
-			//variables para senderos
-			Sendero sendero;
-
-			//variables para Reservas
-			Reserva res;
-			string dia,mes,anyo, codigo;
-
-			//variables para condiciones
-			int opcion;
-			char temp1;
-			int temp2;
-
-			cout<<"¿Que desea?"<<endl;
-			cout<<"1. Ver todas las rutas"<<endl;
-			cout<<"2. Modificar una ruta"<<endl;
-			cout<<"3. Modificar reserva"<<endl;
-			cin>>opcion;
-			switch(opcion){
-				case 1:
-					for(itr=rutas_.begin();itr!=rutas_.end();itr++){
-						cout<<"Nombre de la ruta: "<<(*itr).mostrarNombre()<<endl;
-						cout<<"Duracion estimada: "<<(*itr).mostrarDuracion()<<endl;
-						cout<<"Realizable a pie: "<<(*itr).mostrarAPie()<<endl;
-						cout<<"Realizable en bici: "<<(*itr).mostrarEnbici()<<endl;
-						cout<<"Mejor opccion para realizar la ruta: "<<(*itr).mostrarMejor_aPie_o_enBici()<<endl;
-						(*itr).mostrarSenderos();
-						(*itr).mostrarReservas();
-						cout<<"El aforo total de la ruta es"<<(*itr).mostrarAforoTotal()<<endl;
-						cout<<"El aforo disponible es: "<<(*itr).mostrarAforoDisponible()<<endl;
-						cout<<"El nivel de dificultad de la ruta es: "<<(*itr).mostrarNivel()<<endl;
-						cout<<"Estado de la ruta: "<<(*itr).mostrarEstado()<<endl;
-
-					}
-						break;
-				case 2:
-					cout<<"Introduzca nombre de la ruta que desea cambiar: ";
-					getline(cin,nombre);
-					for(itr=rutas_.begin();itr!=rutas_.end();itr++){
-							if(nombre==(*itr).mostrarNombre()){
-
-								cout<<"\nIntroduzca nuevo nombre: ";
-							getline(cin,nombre);
-							if(nombre!=(*itr).mostrarNombre()){
-								(*itr).cambiarNombre(nombre);}
-
-							cout<<"\nIntroduzca nueva duracion: ";
-								cin>>duracion;
-								if(duracion!=(*itr).mostrarDuracion){
-								(*itr).cambiarDuracion(duracion);}
-
-							cout<<"desea añadir o borrar senderos"<<endl;
-							cout<<"Para añadir introduzca 'a'"<<endl;
-							cout<<"Para borrar introduzca 'b"<<endl;
-							cin>>temp1;
-							if(temp1=='a'){
-								cout<<"\nIntroduzca el numero de senderos:"; cin>>temp2;
-
-							for(int i=0;i<temp2;i++){
-								cout<<"\nNombre del sendero: "; cin>>sendero.nombre;
-								cout<<"\nIntroduzca distancia del sendero: "; cin>>sendero.distancia;
-							if((*itr).Ruta::anyadirSendero(sendero)){
-							cout<<"Error al introducir el nuevo sendero"<<endl;
-									}
-								}
-							}
-							if(temp1=='b'){
-								if(!(*itr).borrarSendero()){
-									cout<<"Error al borrar el sendero"<<endl;
-								}
-							}
-
-							cout<<"Introduzca el nuevo aforo: ";
-							cin>>aforo;
-							if(aforo!=(*itr).mostrarAforoTotal){
-								(*itr).cambiarAforo(aforo);
-							}
-
-							cout<<"Introduzca el nuevo estado: ";
-							cin>>estado;
-							if(estado!=(*itr).mostrarEstado()){
-								(*itr).cambiarEstado(estado);
-							}
-
-							cout<<"Introduzca el nuevo nivel: ";
-							cin>>nivel;
-							if(nivel!=(*itr).mostrarNivel()){
-								(*itr).cambiarNivel(nivel);
-							}
-					break;
-							}}
-				cout<<"\nRuta no encontrada"<<endl;
-
-					break;
-				case 3:
-					cout<<"\nDesea añadir (introduzca 'a') nueva reserva o borrar (introduzca 'b') una reserva: ";
-					cin>>temp1;
-					if(temp1=='a'){
-						cout<<"\nIntroducza codigo de la reserva: ";
-								cin>>codigo;
-						cout<<"\nIntroduzca dia de la reserva: ";
-							cin>>dia;
-						cout<<"\nIntroduzca mes de la reserva: ";
-							cin>>mes;
-						cout<<"\nIntroduzca anyo de la reserva: ";
-							cin>>anyo;
-							res.Reserva::setCodigo(codigo);
-							res.Reserva::setFecha(dia,mes,anyo);
-							res.Reserva::setRuta((*itr));
-
-						if(!(*itr).anyadirReserva(res)){
-							cout<<"Error al añadir la reserva"<<endl;
-						}
-					}
-					if(temp1=='b'){
-						if(!(*itr).borrarReserva()){
-							cout<<"La reserva no se ha podido borrar"<<endl;
-						}
-					}
-					break;
-				default:
-					cout<<"Opcion incorrecta"<<endl;
-					break;
-			}
-		};
-
-		bool anyadirRuta(Ruta ruta){
-		list<Ruta>::iterator itr;
-		for(itr=rutas_.begin();itr!=rutas_.end();itr++){
-			if(ruta.Ruta::mostrarNombre()==(*itr).Ruta::mostrarNombre()){
-				return false;
-			}
-		}
-		rutas_.push_back(ruta);
-				return true;
-		};
-
-		bool borrarRuta(){
-			list<Ruta>::iterator itr;
-			Ruta ruta;
-			string nombre;
-			cout<<"Introduzca nombre de la ruta: ";
-					getline(cin,nombre);
-			ruta.cambiarNombre(nombre);
-
-			for(itr=rutas_.begin();itr!=rutas_.end();itr++){
-				if(ruta.Ruta::mostrarNombre()==(*itr).Ruta::mostrarNombre()){
-					rutas_.erase(itr);
-					return true;
-				}
-			}
-					return false;
-		};
-
-};
-
-
-class Ruta{
-	private:
-		string nombre_;
-		float duracionMinutos_;
-		bool aPie_;
-		bool enBici_;
-		list<Sendero> senderos_;
-		list<Reserva> reserva_;
-		int aforoGrupos_;
-		string estado_;
-		string nivel_;
-
-	public:
-		string mostrarNombre();
-		bool cambiarNombre(string nombre);
-		float mostrarDuracion();
-		bool cambiarDuracion(float duracion);
-		string mostrarAPie();
-		string mostrarEnbici();
-		string mostrarMejor_aPie_o_enBici();
-		void mostrarSenderos();
-		bool anyadirSendero(Sendero sendero);
-		bool borrarSendero();
-		void mostrarReservas();
-		bool anyadirReserva(Reserva reserva);
-		bool borrarReserva();
-		int mostrarAforoTotal();
-		int mostrarAforoDisponible();
-		bool cambiarAforo(int aforoGrupos);
-		string mostrarEstado();
-		bool cambiarEstado(string estado);
-		string mostrarNivel();
-		bool cambiarNivel(string nivel);
-
-
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
