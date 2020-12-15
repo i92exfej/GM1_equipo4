@@ -26,6 +26,7 @@ struct Reconocimiento{
 struct Sendero{
 	string nombre;
 	float distancia;
+	int duracion;
 };
 
 class Cliente;
@@ -625,16 +626,33 @@ class Reserva{
         string codigo_;
 
     public:
-        Reserva(Ruta ruta="", string fecha="", string codigo="");
+        Reserva(Ruta ruta="", string fecha="", string codigo=""){
+		setRuta(ruta);
+		setFecha(fecha);
+		setCodigo(codigo);
+	}
+	
+	Reserva(Ruta ruta, string fecha = "", string codigo = ""){
+		setRuta(ruta);
+		setFecha(fecha);
+		setCodigo(codigo);
+		}
+	
+	void setRuta(Ruta ruta){ruta_ = ruta;}
 
-        void setRuta(Ruta ruta);
-        Ruta getRuta();
-
-        void setFecha(string day, string month, string year);
-        string getFecha();
-
-        void setCodigo(string codigo);
-        string getCodigo();
+	Ruta getRuta{return ruta_;}
+	
+	void setFecha(string hora, string dia, string mes, string anyo){
+		string fecha_ = dia + " de " + mes + " de " + anyo + " a las " + hora + ".\n";
+	}
+	
+	string getFecha(){return fecha_;}
+	
+	void setCodigo(string codigo){
+		codigo_ = codigo;
+	}
+		
+	string getCodigo(){return codigo_;}
 
 };
 
@@ -903,35 +921,177 @@ class Ruta{
 		float duracionMinutos_;
 		bool aPie_;
 		bool enBici_;
-		list<Sendero> senderos_;
-		list<Reserva> reserva_;
+		list<Sendero>senderos_;
+		list<Reserva>reservas_;
 		int aforoGrupos_;
 		string estado_;
 		string nivel_;
-
-	public:
-		string mostrarNombre();
-		bool cambiarNombre(string nombre);
-		float mostrarDuracion();
-		bool cambiarDuracion(float duracion);
-		string mostrarAPie();
-		string mostrarEnbici();
-		string mostrarMejor_aPie_o_enBici();
-		void mostrarSenderos();
-		bool anyadirSendero(Sendero sendero);
-		bool borrarSendero();
-		void mostrarReservas();
-		bool anyadirReserva(Reserva reserva);
-		bool borrarReserva();
-		int mostrarAforoTotal();
-		int mostrarAforoDisponible();
-		bool cambiarAforo(int aforoGrupos);
-		string mostrarEstado();
-		bool cambiarEstado(string estado);
-		string mostrarNivel();
-		bool cambiarNivel(string nivel);
-
-
+	public;
+		Ruta();
+	
+		string mostrarNombre(){return nombre_;}
+			
+		bool cambiarNombre(string nombre){nombre_ = nombre; return true;}
+			
+		float mostrarDuracionMinutos(){return duracionMinutos_;}
+		
+		bool cambiarDuracionMinutos(){duracionMinutos_ = duracionMinutos; return true;}
+			
+		string mostrarAPie(){
+			string cad;
+			if(aPie == true){
+				cad == "Sí";
+			}
+			else{
+				cad == "No";
+			}
+			return cad;
+		}
+		
+		bool cambiarAPie(bool aPie){
+			if(aPie==true){
+				aPie_=true;
+				return true;
+			}
+			else{
+				aPie_=false;
+				return true;
+			}
+			return false;
+		}
+	
+		string mostrarEnBici(){
+			string cad;
+			if(enBici == true){
+				cad == "Sí";
+			}
+			else{
+				cad == "No";
+			}
+			return cad;
+		}
+	
+		bool cambiarEnBici(bool enBici){
+			if(enBici==true){
+				enBici_=true;
+				return true;
+			}
+			else{
+				enBici_=false;
+				return true;
+			}
+			return false;
+		}
+			
+		void mostrarSenderos(){
+			list<Sendero>:: iterator i;
+			for(i=senderos_.begin();i!=senderos_.end();i++){
+				cout << "DATOS DEL SENDERO: "
+				cout << "\n\tNombre: ";
+				cout << i->nombre;
+				cout << "\n\tDistancia en Kms: "
+				cout << i->distancia;
+				cout << "\n\tDuracion aproximada: "
+				cout << i->duracion;
+				cout << "\n-------------------------------------\n";
+			}
+		}
+	
+		bool anyadirSendero(Sendero sendero){
+			list<Sendero>:: iterator i;
+			for(i=senderos_.begin();i!=senderos_.end();i++){
+				if(i->nombre()==sendero.nombre{
+					cout << "Sendero ya registrado.\n";
+					return false;
+				}
+			}
+		
+			senderos_.push_back(sendero);
+			return true;
+		}
+	
+		bool borrarSendero(){
+			string nombre;
+			cout << "\n\tPor favor, introduzca el nombre del sendero a eliminar: "
+			cin >> nombre;
+			cout << endl;
+			list<Sendero>:: iterator i;
+			for(i=senderos_.begin();i!=senderos_.end();i++){
+				if(sendero.nombre==cad){
+					i = senderos_.remove(i);
+					return true;
+				}
+			}
+			"ERROR. No se ha encontrado el sendero seleccionado.\n".
+			return false;
+		}
+	
+		void mostrarReservas(){
+			list<Reserva>:: iterator i;
+			for(i=reservas_.begin();i!=reservas_.end();i++){
+				cout << "DATOS DE LA RESERVA: "
+				cout << "\n\tFecha de realizacion: ";
+				cout << i->getFecha();
+				cout << "\n\tCodigo: "
+				cout << i->getCodigo;
+				cout << "\n-------------------------------------\n";
+			}
+		}
+		
+		bool anyadirReserva(Reserva reserva){
+			list<Reserva>:: iterator i;
+			for(i=reservas_.begin();i!=reservas_.end();i++){
+				if(i->getCodigo()==reserva.getCodigo()){
+					cout << "Reserva ya registrada.\n";
+					return false;
+				}
+			}
+			reservas_.push_back(reserva);
+			return true;
+		}
+				   
+		bool borrarReserva(){
+			string cod;
+			cout << "\n\tPor favor, introduzca el codigo del sendero a eliminar: "
+			cin >> cod;
+			cout << endl;
+			list<Reserva>:: iterator i;
+			for(i=reservas_.begin();i!=reservas_.end();i++){
+				if(reserva.nombre==cad){
+					i = reservas_.remove(i);
+					cout << "Reserva eliminada correctamente.\n"
+					return true;
+				}
+			}
+			"ERROR. No se ha encontrado la reserva seleccionada.\n".
+			return false;
+		}
+		
+		int mostrarAforoTotal(){return aforoGrupos_;}
+			int mostrarAforoDispponible(){
+			int cont = aforoGrupos_;
+			list<Reserva>:: iterator i;
+			for(i=reservas_.begin();i!=reservas_.end();i++){
+				cont--;
+			}
+			return cont;
+		}
+		
+		bool cambiarAforo(int aforoGrupos){
+			if(aforoGrupos > 1){
+				aforoGrupos_ = aforoGrupos;
+				return true;
+			}		
+			else{
+				cout << "Este valor para el aforo no es valido.\n";
+				return false;
+			}	
+		}
+		
+		string mostrarEstado(){return estado_;}
+			bool cambiarEstado(string estdo){estado_ = estado;}
+			string mostrarNivel(){return nivel;}
+			bool cambiarNivel(string nivel){nivel_ = nivel;}
 };
 
 
