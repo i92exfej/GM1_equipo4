@@ -197,7 +197,7 @@ class Ruta{
 				cout << (*i).getCodigo();
 				cout << "\n-------------------------------------\n";
 			}
-		}
+		};
 
 		bool anyadirReserva(Reserva reserva){
 			list<Reserva>:: iterator i;
@@ -209,7 +209,7 @@ class Ruta{
 			}
 			reservas_.push_back(reserva);
 			return true;
-		}
+		};
 
 		bool borrarReserva(){
 			string cod;
@@ -254,9 +254,6 @@ class Ruta{
 			string mostrarNivel(){return nivel_;};
 			bool cambiarNivel(string nivel){nivel_ = nivel;return true;};
 };
-
-
-
 
 
 
@@ -346,7 +343,7 @@ class Parque{
 					}
 				premios_.push_back(premio);
 				return true;
-		}
+		};
 		bool borrarPremio(){
 			list<Premio>::iterator itre;
 			Premio premio;
@@ -378,7 +375,7 @@ class Parque{
 					}
 				reconocimientos_.push_back(reconocimiento);
 				return true;
-		}
+		};
 		bool borrarReconocimiento(){
 			list<Reconocimiento>::iterator itre;
 			Reconocimiento reconocimiento;
@@ -474,6 +471,7 @@ class Parque{
 							for(int i=0;i<temp2;i++){
 								cout<<"\nNombre del sendero: "; cin>>sendero.nombre;
 								cout<<"\nIntroduzca distancia del sendero: "; cin>>sendero.distancia;
+								cout<<"\nIntroduzca la duracion del sendero: "; cin>>sendero.duracion;
 							if((*itr).Ruta::anyadirSendero(sendero)){
 							cout<<"Error al introducir el nuevo sendero"<<endl;
 									}
@@ -587,7 +585,7 @@ class Incidencia{
 			setRuta(ruta);
 			setDescripcion(descripcion);
 			setEstado(1);
-		}
+		};
 
 		void setNombre(string nombre){nombre_ = nombre;};
 		void setCodigo(string codigo){codigo_ = codigo;};
@@ -739,8 +737,10 @@ class Monitor:public Usuario{
 		    for(int i; i<nsenderos; i++){
 		        cout<<"Indique el nombre del sendero: ";
 		        cin>>sendero.nombre;
-		        cout<<"\nintroduzca la distancia del sendero: ";
+		        cout<<"\nIntroduzca la distancia del sendero: ";
 		        cin>>sendero.distancia;
+		        cout<<"\nIntroduzca la duracion del sendero: ";
+		        cin>>sendero.duracion;
 
 		        if(!rnueva.Ruta::anyadirSendero(sendero)){
 		            cout<<"\nError al introducir el sendero nuevo\n";
@@ -1081,14 +1081,14 @@ cout<<"El cliente con dni "<<dni<<" no se encuentra en el sistema"<<endl;
 				}
 			}
 
-		}
+		};
 
 		void getIncidencias(){
 			list<Incidencia>::iterator iti;
 			for(iti=incidencias.begin();iti!=incidencias.end();iti++){
 				(*iti).Incidencia::mostrarIncidencia();
 			}
-		}
+		};
 
 		void ModificarIncidencia(string codigo){
 			string descripcion;
