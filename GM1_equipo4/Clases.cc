@@ -62,7 +62,7 @@ class Reserva{
 	string getRuta(){return ruta_;};
 
 	void setFecha(string dia, string mes, string anyo){
-		fecha_=dia+" de "+mes+" de "+anyo+".\n";
+		fecha_=dia+" de "+mes+" de "+anyo+".";
 	};
 
 	string getFecha(){return fecha_;}
@@ -278,7 +278,7 @@ class Cliente{
         	condicion_=condicion;
         	reserva_=reserva;
         };
-  	Cliente();
+  	Cliente(){/*nada*/};
 
         void setNombre(string nombre){nombre_=nombre;};
         string getNombre(){return nombre_;};
@@ -506,6 +506,11 @@ class Parque{
 				case 3:
 					cout<<"\nDesea añadir (introduzca 'a') nueva reserva o borrar (introduzca 'b') una reserva: ";
 					cin>>temp1;
+					cout<<"\nIntroduzca el nombre de la ruta para añadir: ";
+					cin>>nombre;
+					for(itr=rutas_.begin();itr!=rutas_.end();itr++){
+					if(nombre==(*itr).mostrarNombre()){
+
 					if(temp1=='a'){
 						cout<<"\nIntroducza codigo de la reserva: ";
 								cin>>codigo;
@@ -527,7 +532,7 @@ class Parque{
 						if(!(*itr).borrarReserva()){
 							cout<<"La reserva no se ha podido borrar"<<endl;
 						}
-					}
+					}}}
 					break;
 				default:
 					cout<<"Opcion incorrecta"<<endl;
@@ -879,7 +884,7 @@ class Administrativo:public Usuario{
 		return C;
 		};
 
-		void setReserva(Cliente cliente){
+		void setReserva(Cliente &cliente){
 			string codigo, dia, mes, anyo,nombre;
 			Reserva aux;
 			 Parque P;
@@ -946,7 +951,7 @@ cout<<"El cliente con dni "<<dni<<" no se encuentra en el sistema"<<endl;
 }
 
 		};
-		void eliminarReserva(Cliente cliente){
+		void eliminarReserva(Cliente &cliente){
 			Reserva aux;
 
 			cliente.Cliente::setReserva(aux);
@@ -1056,3 +1061,4 @@ cout<<"El cliente con dni "<<dni<<" no se encuentra en el sistema"<<endl;
 					}
 				};
 };
+
