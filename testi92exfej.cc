@@ -1,4 +1,8 @@
 //codigo de test de i92exfej
+//El codigo de prueba esta a partir de la linea -1081-
+//El codigo hasta la la linea -1080- pertenece al codigo probado
+
+
 #include "cute.h"
 #include "ide_listener.h"
 #include "xml_listener.h"
