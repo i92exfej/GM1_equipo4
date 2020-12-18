@@ -435,11 +435,9 @@ class Parque{
 						cout<<"Duracion estimada: "<<(*itr).mostrarDuracionMinutos()<<endl;
 						cout<<"Realizable a pie: "<<(*itr).mostrarAPie()<<endl;
 						cout<<"Realizable en bici: "<<(*itr).mostrarEnBici()<<endl;
-						//cout<<"Mejor opccion para realizar la ruta: "<<(*itr).mostrarMejor_aPie_o_enBici()<<endl;
 						(*itr).mostrarSenderos();
 						(*itr).mostrarReservas();
 						cout<<"El aforo total de la ruta es"<<(*itr).mostrarAforoTotal()<<endl;
-						//cout<<"El aforo disponible es: "<<(*itr).mostrarAforoDisponible()<<endl;
 						cout<<"El nivel de dificultad de la ruta es: "<<(*itr).mostrarNivel()<<endl;
 						cout<<"Estado de la ruta: "<<(*itr).mostrarEstado()<<endl;
 
@@ -864,60 +862,6 @@ class Administrativo:public Usuario{
 			P=parque;
 			P.Parque::mostrarRutas();
 			parque=P;
-			//El codigo a partir de aqui esta comentado para su posible eliminacion futura
-			//debido al cambio actual del codigo
-			/*int opcion,n;
-			Ruta aux;
-			//variables necesarias para el cambio en la ruta
-			string nombre, estado, nivel;
-			Sendero asendero;
-			Reserva reserva;
-			int aforo;
-			float duracion;
-			Parque P;
-			P=parque; //objeto de la clase parque declarado como global en el programa main
-			cout<<"¿Desea (1) modificar una ruta existente o  (2) borrar una ruta?"; cin>>opcion;
-			cout<<"\nLista de rutas en el parque: "<<endl;
-			P.Parque::mostrarRutas();
-
-			switch(opcion){
-			 case 1:
-				 cout<<"Introduzca los datos modificados de la ruta.\n En caso de que los datos no hayan sido modificados, introduzca los antiguos."<<endl;
-				 	cout<<"Introduzca nuevo nombre: "; cin>>nombre;
-				 		aux.Ruta::cambiarNombre(nombre);
-				 	cout<<"\nIntroduzca nueva duracion: "; cin>>duracion;
-				 		aux.Ruta::cambiarDuracion(duracion);
-					cout<<"\nIntroduzca nuevo aforo: "; cin>>aforo;
-						aux.Ruta::cambiarAforo(aforo);
-					cout<<"\nIntroduzca nuevo estado: "; cin>>estado;
-						aux.Ruta::cambiarEstado(estado);
-				 	cout<<"\nIntroduzca nuevo nivel: "; cin>>nivel;
-				 	aux.Ruta::cambiarNivel(nivel);
-				cout<<"\nIntroduzca el numero de senderos:"; cin>>n;
-				for(int i=0;i<n;i++){
-					cout<<"\nNombre del sendero: "; cin>>asendero.nombre;
-					cout<<"\nIntroduzca distancia del sendero: "; cin>>asendero.distancia;
-					if(!aux.Ruta::añadirSendero(asendero)){
-						cout<<"Error al introducir el nuevo sendero"<<endl;
-					}
-				}
-				if(!P.Parque::borrarRuta()){
-					cout<<"Error al borrar la ruta"<<endl;
-				}
-				if(!P.Parque::añadirRuta(aux)){
-					cout<<"Error al añadir la ruta"<<endl;
-				}
-				break;
-			 case 2:
-					if(!P.Parque::borrarRuta()){
-					cout<<"Error al borrar la ruta"<<endl;
-				}
-				break;
-			 default:
-				 cout<<"Opcion mal introducida"<<endl;
-				 break;
-
-			}*/
 			};
 
 		Cliente setCliente(){
