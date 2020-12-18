@@ -1,3 +1,7 @@
+#include "cute.h"
+#include "ide_listener.h"
+#include "xml_listener.h"
+#include "cute_runner.h"
 #include <iostream>
 #include <cstdlib>
 #include <string.h>
@@ -100,10 +104,10 @@ class Ruta{
 		string mostrarAPie(){
 			string cad;
 			if(aPie_ == true){
-				cad == "Sí";
+				cad ="Si";
 			}
 			else{
-				cad == "No";
+				cad = "No";
 			}
 			return cad;
 		};
@@ -123,10 +127,10 @@ class Ruta{
 		string mostrarEnBici(){
 			string cad;
 			if(enBici_ == true){
-				cad == "Sí";
+				cad = "Si";
 			}
 			else{
-				cad == "No";
+				cad = "No";
 			}
 			return cad;
 		};
@@ -283,7 +287,7 @@ class Cliente{
         void setNombre(string nombre){nombre_=nombre;};
         string getNombre(){return nombre_;};
 
-        void setApellidos(string apellido1, string apellido2){apellidos_=apellido1+apellido2;};
+        void setApellidos(string apellido1, string apellido2){apellidos_=apellido1+" "+apellido2;};
         string getApellidos(){return apellidos_;};
 
         void setDNI(string dni){dni_=dni;};
@@ -422,6 +426,7 @@ class Parque{
 			int opcion;
 			char temp1;
 			int temp2;
+			bool found;
 
 			cout<<"¿Que desea?"<<endl;
 			cout<<"1. Ver todas las rutas"<<endl;
@@ -437,20 +442,21 @@ class Parque{
 						cout<<"Realizable en bici: "<<(*itr).mostrarEnBici()<<endl;
 						(*itr).mostrarSenderos();
 						(*itr).mostrarReservas();
-						cout<<"El aforo total de la ruta es"<<(*itr).mostrarAforoTotal()<<endl;
+						cout<<"El aforo total de la ruta es: "<<(*itr).mostrarAforoTotal()<<endl;
 						cout<<"El nivel de dificultad de la ruta es: "<<(*itr).mostrarNivel()<<endl;
 						cout<<"Estado de la ruta: "<<(*itr).mostrarEstado()<<endl;
+						cout<<endl;
 
 					}
 						break;
 				case 2:
 					cout<<"Introduzca nombre de la ruta que desea cambiar: ";
-					getline(cin,nombre);
+					cin>>nombre;
 					for(itr=rutas_.begin();itr!=rutas_.end();itr++){
 							if(nombre==(*itr).mostrarNombre()){
-
+								found=true;
 								cout<<"\nIntroduzca nuevo nombre: ";
-							getline(cin,nombre);
+							cin>>nombre;
 							if(nombre!=(*itr).mostrarNombre()){
 								(*itr).cambiarNombre(nombre);}
 
@@ -470,7 +476,7 @@ class Parque{
 								cout<<"\nNombre del sendero: "; cin>>sendero.nombre;
 								cout<<"\nIntroduzca distancia del sendero: "; cin>>sendero.distancia;
 								cout<<"\nIntroduzca la duracion del sendero: "; cin>>sendero.duracion;
-							if((*itr).Ruta::anyadirSendero(sendero)){
+							if(!(*itr).Ruta::anyadirSendero(sendero)){
 							cout<<"Error al introducir el nuevo sendero"<<endl;
 									}
 								}
@@ -498,21 +504,22 @@ class Parque{
 							if(nivel!=(*itr).mostrarNivel()){
 								(*itr).cambiarNivel(nivel);
 							}
-					break;
-							}}
-				cout<<"\nRuta no encontrada"<<endl;
 
+							}}
+					if(!found){
+				cout<<"\nRuta no encontrada"<<endl;
+					}
 					break;
 				case 3:
 					cout<<"\nDesea añadir (introduzca 'a') nueva reserva o borrar (introduzca 'b') una reserva: ";
 					cin>>temp1;
-					cout<<"\nIntroduzca el nombre de la ruta para añadir: ";
+					cout<<"\nIntroduzca el nombre de la ruta deseada: ";
 					cin>>nombre;
 					for(itr=rutas_.begin();itr!=rutas_.end();itr++){
 					if(nombre==(*itr).mostrarNombre()){
-
+						found=true;
 					if(temp1=='a'){
-						cout<<"\nIntroducza codigo de la reserva: ";
+						cout<<"\nIntroduzca codigo de la reserva: ";
 								cin>>codigo;
 						cout<<"\nIntroduzca dia de la reserva: ";
 							cin>>dia;
@@ -533,6 +540,9 @@ class Parque{
 							cout<<"La reserva no se ha podido borrar"<<endl;
 						}
 					}}}
+					if(!found){
+						cout<<"La ruta no ha sido encontrada, por lo que no se puede añadir la reserva"<<endl;
+					}
 					break;
 				default:
 					cout<<"Opcion incorrecta"<<endl;
@@ -1061,4 +1071,3 @@ cout<<"El cliente con dni "<<dni<<" no se encuentra en el sistema"<<endl;
 					}
 				};
 };
-
