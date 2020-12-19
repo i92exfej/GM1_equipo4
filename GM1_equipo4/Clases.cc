@@ -439,6 +439,7 @@ class Parque{
 						(*itr).mostrarSenderos();
 						(*itr).mostrarReservas();
 						cout<<"El aforo total de la ruta es: "<<(*itr).mostrarAforoTotal()<<endl;
+						cout<<"El aforo disponible en la ruta es: "<<(*itr).mostrarAforoDispponible()<<endl;
 						cout<<"El nivel de dificultad de la ruta es: "<<(*itr).mostrarNivel()<<endl;
 						cout<<"Estado de la ruta: "<<(*itr).mostrarEstado()<<endl;
 						cout<<endl;
@@ -721,11 +722,12 @@ class Monitor:public Usuario{
 		};
 
 		Ruta createRuta(){
-		    string nombre,nivel;
+		    string nombre,nivel,estado;
 		    float duracion;
 		    int aforo, nsenderos;
 		    Ruta rnueva;
 		    Sendero sendero;
+		    bool a,b;
 		    Parque P;
 		    P=parque;
 		    cout<<"Introduzca el nombre de la ruta nueva: ";
@@ -741,9 +743,7 @@ class Monitor:public Usuario{
 		    rnueva.Ruta::cambiarNivel(nivel);
 		    cout<<"\nIntroduzca el numero de senderos: ";
 		    cin>>nsenderos;
-
-
-		    for(int i; i<nsenderos; i++){
+		    for(int i=0; i<nsenderos; i++){
 		        cout<<"Indique el nombre del sendero: ";
 		        cin>>sendero.nombre;
 		        cout<<"\nIntroduzca la distancia del sendero: ";
@@ -755,10 +755,25 @@ class Monitor:public Usuario{
 		            cout<<"\nError al introducir el sendero nuevo\n";
 		        }
 		    }
+		    cout<<"¿La ruta se puede realizar a pie?"<<endl;
+		    cout<<"Introduzca 1 para si o 0 para no"<<endl;
+		    cin>>a;
+
+		    cout<<"¿La ruta se puede realizar en bici?"<<endl;
+		    cout<<"Introduzca 1 para si o 0 para no"<<endl;
+		  	cin>>b;
+
+		  	cout<<"Introduzca el estado de la ruta"<<endl;
+		  	cin>>estado;
+		  	rnueva.Ruta::cambiarEstado(estado);
+		  	rnueva.Ruta::cambiarAPie(a);
+		  	rnueva.Ruta::cambiarEnBici(b);
+
 
 		    if(!P.Parque::anyadirRuta(rnueva)){
 		        cout<<"\nError al introducir la ruta nueva\n";
 		}
+		    parque=P;
 		    return rnueva;
 };
 };
