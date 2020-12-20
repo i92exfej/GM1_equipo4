@@ -1,0 +1,6 @@
+/*Aquí quedarán registrados todos los usuarios de la siguiente forma: dni,password. 
+El password tendrá que estar formado por 6 caracteres alfanuméricos. Cada usuario irá en una línea diferente.*/
+
+//Usuario de prueba
+
+dniprueba,12345K
