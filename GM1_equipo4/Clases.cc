@@ -740,11 +740,13 @@ class Monitor:public Usuario{
 		    cin>>aforo;
 		    rnueva.Ruta::cambiarAforo(aforo);
 		    cout<<"\nIntroduzca el nivel de dificultad de la ruta: ";
+		    cin>>nivel;
 		    rnueva.Ruta::cambiarNivel(nivel);
 		    cout<<"\nIntroduzca el numero de senderos: ";
 		    cin>>nsenderos;
 		    for(int i=0; i<nsenderos; i++){
-		        cout<<"Indique el nombre del sendero: ";
+		    	cout<<"\n";
+		        cout<<"\nIndique el nombre del sendero: ";
 		        cin>>sendero.nombre;
 		        cout<<"\nIntroduzca la distancia del sendero: ";
 		        cin>>sendero.distancia;
@@ -755,15 +757,15 @@ class Monitor:public Usuario{
 		            cout<<"\nError al introducir el sendero nuevo\n";
 		        }
 		    }
-		    cout<<"¿La ruta se puede realizar a pie?"<<endl;
-		    cout<<"Introduzca 1 para si o 0 para no"<<endl;
+		    cout<<"\n¿La ruta se puede realizar a pie?";
+		    cout<<"\nIntroduzca 1 para si o 0 para no: ";
 		    cin>>a;
 
-		    cout<<"¿La ruta se puede realizar en bici?"<<endl;
-		    cout<<"Introduzca 1 para si o 0 para no"<<endl;
+		    cout<<"\n¿La ruta se puede realizar en bici?";
+		    cout<<"\nIntroduzca 1 para si o 0 para no: ";
 		  	cin>>b;
 
-		  	cout<<"Introduzca el estado de la ruta"<<endl;
+		  	cout<<"\nIntroduzca el estado de la ruta: ";
 		  	cin>>estado;
 		  	rnueva.Ruta::cambiarEstado(estado);
 		  	rnueva.Ruta::cambiarAPie(a);
